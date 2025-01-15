@@ -12,6 +12,69 @@ Please add your entries in this format:
 
 In the current stage we aim to release a new version at least every month.
 
+## 4.13.0
+
+Released: 2025-01-15
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/aws-s3    |   4.2.2 | @uppy/unsplash  |   4.3.2 |
+| @uppy/companion |   5.5.0 | uppy            |  4.13.0 |
+
+- @uppy/aws-s3: always set S3 meta to UppyFile & include key (Merlijn Vos / #5602)
+- @uppy/companion: fix forcePathStyle boolean conversion (Mikael Finstad / #5308)
+- meta: Fix Webpack CI (Merlijn Vos / #5604)
+- @uppy/aws-s3: allow uploads to fail/succeed independently (Merlijn Vos / #5603)
+- meta: Add types for css files (Merlijn Vos / #5591)
+- @uppy/unsplash: make utmSource optional (Merlijn Vos / #5601)
+- meta: build(deps): bump docker/setup-qemu-action from 3.2.0 to 3.3.0 (dependabot[bot] / #5599)
+- meta: build(deps): bump docker/build-push-action from 6.10.0 to 6.11.0 (dependabot[bot] / #5600)
+- @uppy/companion: add COMPANION_TUS_DEFERRED_UPLOAD_LENGTH (Dominik Schmidt / #5561)
+
+
+## 4.12.2
+
+Released: 2025-01-09
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/audio                |   2.1.1 | @uppy/instagram            |   4.2.1 |
+| @uppy/aws-s3               |   4.2.1 | @uppy/onedrive             |   4.2.2 |
+| @uppy/box                  |   3.2.1 | @uppy/progress-bar         |   4.2.1 |
+| @uppy/companion-client     |   4.4.1 | @uppy/provider-views       |   4.4.1 |
+| @uppy/compressor           |   2.2.1 | @uppy/react                |   4.2.1 |
+| @uppy/core                 |   4.4.1 | @uppy/remote-sources       |   2.3.1 |
+| @uppy/dashboard            |   4.3.1 | @uppy/screen-capture       |   4.2.1 |
+| @uppy/drag-drop            |   4.1.1 | @uppy/status-bar           |   4.1.1 |
+| @uppy/drop-target          |   3.1.1 | @uppy/thumbnail-generator  |   4.1.1 |
+| @uppy/dropbox              |   4.2.1 | @uppy/transloadit          |   4.2.1 |
+| @uppy/facebook             |   4.2.1 | @uppy/tus                  |   4.2.1 |
+| @uppy/file-input           |   4.1.1 | @uppy/unsplash             |   4.3.1 |
+| @uppy/form                 |   4.1.1 | @uppy/url                  |   4.2.1 |
+| @uppy/golden-retriever     |   4.1.1 | @uppy/vue                  |   2.1.1 |
+| @uppy/google-drive         |   4.3.1 | @uppy/webcam               |   4.1.1 |
+| @uppy/google-drive-picker  |   0.3.2 | @uppy/webdav               |   0.3.1 |
+| @uppy/google-photos        |   0.5.1 | @uppy/xhr-upload           |   4.3.2 |
+| @uppy/google-photos-picker |   0.3.2 | @uppy/zoom                 |   3.2.1 |
+| @uppy/image-editor         |   3.3.1 | uppy                       |  4.12.2 |
+| @uppy/informer             |   4.2.1 |                            |         |
+
+- @uppy/provider-views: Import types consistently from @uppy/core (Merlijn Vos / #5589)
+- @uppy/status-bar: fix double upload progress (Mikael Finstad / #5587)
+- @uppy/provider-views: fix incorrect import (Merlijn Vos / #5588)
+
+
+## 4.12.1
+
+Released: 2025-01-08
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/companion |   5.4.1 | uppy            |  4.12.1 |
+
+- @uppy/companion: upgrade express & express-session (Merlijn Vos / #5582)
+
+
 ## 4.12.0
 
 Released: 2025-01-08

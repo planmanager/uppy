@@ -8,18 +8,20 @@ import { UIPlugin, Uppy } from '@uppy/core'
 import { SearchProviderViews } from '@uppy/provider-views'
 import { h, type ComponentChild } from 'preact'
 
-import type { UppyFile, Body, Meta } from '@uppy/utils/lib/UppyFile'
 import type {
+  UppyFile,
+  Body,
+  Meta,
   AsyncStore,
   UnknownSearchProviderPlugin,
   UnknownSearchProviderPluginState,
-} from '@uppy/core/lib/Uppy.js'
+} from '@uppy/core'
 import locale from './locale.js'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
 
-export type UnsplashOptions = { utmSource: string } & CompanionPluginOptions
+export type UnsplashOptions = { utmSource?: string } & CompanionPluginOptions
 
 export default class Unsplash<M extends Meta, B extends Body>
   extends UIPlugin<UnsplashOptions, M, B, UnknownSearchProviderPluginState>
