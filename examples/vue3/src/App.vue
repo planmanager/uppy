@@ -1,115 +1,87 @@
 <template>
-  <div id="app">
-    <!-- <HelloWorld msg="Welcome to Uppy Vue Demo"/> -->
-    <h1>Welcome to Uppy Vue Demo!</h1>
-    <h2>Inline Dashboard</h2>
-    <label>
-      <input
-        type="checkbox"
-        :checked="showInlineDashboard"
-        @change="
-          (event) => {
-            showInlineDashboard = event.target.checked
-          }
-        "
-      />
-      Show Dashboard
-    </label>
-    <Dashboard
-      v-if="showInlineDashboard"
-      :uppy="uppy"
-      :props="{
-        metaFields: [{ id: 'name', name: 'Name', placeholder: 'File name' }],
-      }"
-    />
-    <h2>Modal Dashboard</h2>
-    <div>
-      <button @click="open = true">Show Dashboard</button>
-      <DashboardModal
-        :uppy="uppy2"
-        :open="open"
-        :props="{
-          onRequestCloseModal: handleClose,
-        }"
-      />
-    </div>
+  <UppyContextProvider :uppy="uppy">
+    <main class="p-5 max-w-xl mx-auto">
+      <h1 class="text-4xl font-bold my-4">Welcome to Vue.</h1>
 
-    <h2>Drag Drop Area</h2>
-    <DragDrop
-      :uppy="uppy"
-      :props="{
-        locale: {
-          strings: {
-            chooseFile: 'Boop a file',
-            orDragDrop: 'or yoink it here',
-          },
-        },
-      }"
-    />
+      <UploadButton />
 
-    <h2>Progress Bar</h2>
-    <ProgressBar
-      :uppy="uppy"
-      :props="{
-        hideAfterFinish: false,
-      }"
-    />
-  </div>
+      <dialog
+        ref="dialogRef"
+        class="backdrop:bg-gray-500/50 rounded-lg shadow-xl p-0 fixed inset-0 m-auto"
+      >
+        <Webcam v-if="modalPlugin === 'webcam'" :close="closeModal" />
+        <RemoteSource
+          v-if="modalPlugin === 'dropbox'"
+          id="Dropbox"
+          :close="closeModal"
+        />
+        <ScreenCapture
+          v-if="modalPlugin === 'screen-capture'"
+          :close="closeModal"
+        />
+      </dialog>
+
+      <article>
+        <h2 class="text-2xl my-4">With list</h2>
+        <Dropzone />
+        <FilesList />
+      </article>
+
+      <article>
+        <h2 class="text-2xl my-4">With grid</h2>
+        <Dropzone />
+        <FilesGrid :columns="2" />
+      </article>
+
+      <article>
+        <h2 class="text-2xl my-4">With custom dropzone</h2>
+        <CustomDropzone :openModal="openModal" />
+      </article>
+    </main>
+  </UppyContextProvider>
 </template>
 
-<script setup>
-import { Dashboard, DashboardModal, DragDrop, ProgressBar } from '@uppy/vue'
-</script>
-
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import Uppy from '@uppy/core'
 import Tus from '@uppy/tus'
-import Webcam from '@uppy/webcam'
-import { defineComponent } from 'vue'
+import {
+  UppyContextProvider,
+  Dropzone,
+  FilesList,
+  FilesGrid,
+  UploadButton,
+} from '@uppy/vue'
+import CustomDropzone from './Dropzone.vue'
+import Webcam from './Webcam.vue'
+import RemoteSource from './RemoteSource.vue'
+import ScreenCapture from './ScreenCapture.vue'
+import UppyWebcam from '@uppy/webcam'
+import UppyRemoteSources from '@uppy/remote-sources'
+import UppyScreenCapture from '@uppy/screen-capture'
 
-const { VITE_TUS_ENDPOINT: TUS_ENDPOINT } = import.meta.env
+const dialogRef = ref<HTMLDialogElement | null>(null)
+const modalPlugin = ref<'webcam' | 'dropbox' | 'screen-capture' | null>(null)
 
-export default defineComponent({
-  computed: {
-    uppy: () =>
-      new Uppy({ id: 'uppy1', autoProceed: true, debug: true })
-        .use(Tus, {
-          endpoint: TUS_ENDPOINT,
-        })
-        .use(Webcam),
-    uppy2: () =>
-      new Uppy({ id: 'uppy2', autoProceed: false, debug: true })
-        .use(Tus, {
-          endpoint: TUS_ENDPOINT,
-        })
-        .use(Webcam),
-  },
-  data() {
-    return {
-      open: false,
-      showInlineDashboard: false,
-    }
-  },
-  methods: {
-    handleClose() {
-      this.open = false
-    },
-  },
-})
+function openModal(plugin: 'webcam' | 'dropbox' | 'screen-capture') {
+  modalPlugin.value = plugin
+  dialogRef.value?.showModal()
+}
+
+function closeModal() {
+  modalPlugin.value = null
+  dialogRef.value?.close()
+}
+
+const uppy = computed(() =>
+  new Uppy()
+    .use(Tus, {
+      endpoint: 'https://tusd.tusdemo.net/files/',
+    })
+    .use(UppyWebcam)
+    .use(UppyScreenCapture)
+    .use(UppyRemoteSources, { companionUrl: 'http://localhost:3020' }),
+)
 </script>
 
-<style src="@uppy/core/dist/style.css"></style>
-<style src="@uppy/dashboard/dist/style.css"></style>
-<style src="@uppy/drag-drop/dist/style.css"></style>
-<style src="@uppy/progress-bar/dist/style.css"></style>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style src="@uppy/vue/dist/styles.css"></style>

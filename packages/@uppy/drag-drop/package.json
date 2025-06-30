@@ -1,11 +1,14 @@
 {
   "name": "@uppy/drag-drop",
   "description": "Droppable zone UI for Uppy. Drag and drop files into it to upload.",
-  "version": "4.1.1",
+  "version": "4.1.3",
   "license": "MIT",
   "main": "lib/index.js",
   "style": "dist/style.min.css",
   "type": "module",
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json"
+  },
   "keywords": [
     "file uploader",
     "uppy",
@@ -30,5 +33,8 @@
   },
   "peerDependencies": {
     "@uppy/core": "workspace:^"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }

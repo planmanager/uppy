@@ -1,5 +1,27 @@
 # @uppy/locales
 
+## 4.6.0
+
+Released: 2025-06-30
+Included in: Uppy v4.18.0
+
+- @uppy/locales: Update pt_BR localization (Gabriel Pereira / #5780)
+
+## 4.5.3
+
+Released: 2025-06-02
+Included in: Uppy v4.17.0
+
+- @uppy/locales: Update cs_CZ.ts (Martin Štorek / #5749)
+
+## 4.5.2
+
+Released: 2025-04-08
+Included in: Uppy v4.14.0
+
+- @uppy/locales: Update nb_NO.ts (Tore Sinding Bekkedal / #5678)
+- @uppy/locales: Update cs_CZ.ts (David Petrásek / #5658)
+
 ## 4.5.0
 
 Released: 2025-01-06

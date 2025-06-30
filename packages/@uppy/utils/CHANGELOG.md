@@ -1,5 +1,26 @@
 # @uppy/utils
 
+## 6.1.4
+
+Released: 2025-05-18
+Included in: Uppy v4.16.0
+
+- @uppy/audio,@uppy/box,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/google-drive-picker,@uppy/google-drive,@uppy/google-photos-picker,@uppy/image-editor,@uppy/instagram,@uppy/onedrive,@uppy/remote-sources,@uppy/screen-capture,@uppy/unsplash,@uppy/url,@uppy/utils,@uppy/webcam,@uppy/webdav,@uppy/zoom: ts: make locale strings optional (Merlijn Vos / #5728)
+
+## 6.1.3
+
+Released: 2025-04-08
+Included in: Uppy v4.14.0
+
+- @uppy/utils: add msg mimetype (Merlijn Vos / #5699)
+
+## 6.1.2
+
+Released: 2025-02-03
+Included in: Uppy v4.13.2
+
+- @uppy/utils: do not strip www in getSocketHost (Merlijn Vos / #5621)
+
 ## 6.1.0
 
 Released: 2025-01-06

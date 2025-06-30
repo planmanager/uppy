@@ -1,5 +1,43 @@
 # @uppy/core
 
+## 4.4.6
+
+Released: 2025-06-02
+Included in: Uppy v4.17.0
+
+- @uppy/core: fix missing required meta field error not updating (Prakash / #5766)
+
+## 4.4.5
+
+Released: 2025-05-18
+Included in: Uppy v4.16.0
+
+- @uppy/core: fix undefined reference when cancelling an upload (Prakash / #5730)
+- @uppy/audio,@uppy/box,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/google-drive-picker,@uppy/google-drive,@uppy/google-photos-picker,@uppy/image-editor,@uppy/instagram,@uppy/onedrive,@uppy/remote-sources,@uppy/screen-capture,@uppy/unsplash,@uppy/url,@uppy/utils,@uppy/webcam,@uppy/webdav,@uppy/zoom: ts: make locale strings optional (Merlijn Vos / #5728)
+
+## 4.4.4
+
+Released: 2025-04-08
+Included in: Uppy v4.14.0
+
+- @uppy/core: dry retryAll() and upload() (Mikael Finstad / #5691)
+- @uppy/core: fix locale type for plugins (Merlijn Vos / #5700)
+- @uppy/core: fix events when retrying with upload() (Prakash / #5696)
+
+## 4.4.3
+
+Released: 2025-03-13
+Included in: Uppy v4.13.4
+
+- @uppy/core: make upload() idempotent (Merlijn Vos / #5677)
+
+## 4.4.2
+
+Released: 2025-02-03
+Included in: Uppy v4.13.2
+
+- @uppy/core,@uppy/google-drive-picker,@uppy/google-photos-picker,@uppy/provider-views:
+
 ## 4.4.0
 
 Released: 2025-01-06

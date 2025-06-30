@@ -1,5 +1,34 @@
 # @uppy/provider-views
 
+## 4.4.5
+
+Released: 2025-06-30
+Included in: Uppy v4.18.0
+
+- @uppy/provider-views: improve metadata handling in Google Photos Picker (ben rosenbaum / #5769)
+
+## 4.4.4
+
+Released: 2025-06-02
+Included in: Uppy v4.17.0
+
+- @uppy/provider-views: fix: handle pagination for Google Photos picker (fixes #5765) (ben rosenbaum / #5768)
+
+## 4.4.3
+
+Released: 2025-04-14
+Included in: Uppy v4.15.0
+
+- @uppy/provider-views: Fix google photos picker (Mikael Finstad / #5717)
+
+## 4.4.2
+
+Released: 2025-02-03
+Included in: Uppy v4.13.2
+
+- @uppy/provider-views: fix google photos picker videos (Mikael Finstad / #5635)
+- @uppy/core,@uppy/google-drive-picker,@uppy/google-photos-picker,@uppy/provider-views:
+
 ## 4.4.1
 
 Released: 2025-01-09

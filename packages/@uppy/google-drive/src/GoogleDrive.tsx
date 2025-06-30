@@ -8,6 +8,7 @@ import { UIPlugin, Uppy } from '@uppy/core'
 import { ProviderViews } from '@uppy/provider-views'
 import { h, type ComponentChild } from 'preact'
 
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
 import type {
   UppyFile,
   Body,
@@ -18,11 +19,11 @@ import type {
 } from '@uppy/core'
 import DriveProviderViews from './DriveProviderViews.js'
 import locale from './locale.js'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore We don't want TS to generate types for the package.json
-import packageJson from '../package.json'
+import packageJson from '../package.json' with { type: 'json' }
 
-export type GoogleDriveOptions = CompanionPluginOptions
+export type GoogleDriveOptions = CompanionPluginOptions & {
+  locale?: LocaleStrings<typeof locale>
+}
 
 export default class GoogleDrive<M extends Meta, B extends Body>
   extends UIPlugin<GoogleDriveOptions, M, B, UnknownProviderPluginState>

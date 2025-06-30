@@ -10,14 +10,14 @@ import {
 
 import type { PickedItem } from '@uppy/provider-views/lib/GooglePicker/googlePicker.js'
 import type { Body, Meta, AsyncStore, BaseProviderPlugin } from '@uppy/core'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore We don't want TS to generate types for the package.json
-import packageJson from '../package.json'
+import packageJson from '../package.json' with { type: 'json' }
 import locale from './locale.js'
 
 export type GooglePhotosPickerOptions = CompanionPluginOptions & {
   clientId: string
+  locale?: LocaleStrings<typeof locale>
 }
 
 export default class GooglePhotosPicker<M extends Meta, B extends Body>
@@ -43,7 +43,7 @@ export default class GooglePhotosPicker<M extends Meta, B extends Body>
 
     this.defaultLocale = locale
     this.i18nInit()
-    this.title = this.i18n('pluginNameGooglePhotos')
+    this.title = this.i18n('pluginNameGooglePhotosPicker')
 
     const client = new RequestClient(uppy, {
       pluginId: this.id,
@@ -72,7 +72,7 @@ export default class GooglePhotosPicker<M extends Meta, B extends Body>
     accessToken: string,
   ) => {
     this.uppy.addFiles(
-      files.map(({ id, mimeType, name, ...rest }) => {
+      files.map(({ id, mimeType, name, platform, ...rest }) => {
         return {
           source: this.id,
           name,
@@ -87,10 +87,14 @@ export default class GooglePhotosPicker<M extends Meta, B extends Body>
             body: {
               fileId: id,
               accessToken,
-              ...rest,
+              platform,
+              ...('url' in rest && { url: rest.url }),
             },
             requestClientId: GooglePhotosPicker.requestClientId,
           },
+          ...(('metadata' in rest && {
+            meta: rest.metadata,
+          }) as Meta), // dunno how to type this
         }
       }),
     )
@@ -101,6 +105,7 @@ export default class GooglePhotosPicker<M extends Meta, B extends Body>
       storage={this.storage}
       pickerType="photos"
       uppy={this.uppy}
+      i18n={this.i18n}
       clientId={this.opts.clientId}
       onFilesPicked={this.handleFilesPicked}
     />

@@ -7,7 +7,6 @@ import RemoteSources from './index.js'
 describe('RemoteSources', () => {
   beforeAll(() => {
     globalThis.ResizeObserver =
-      // @ts-expect-error .default is fine
       resizeObserverPolyfill.default || resizeObserverPolyfill
   })
 
@@ -47,7 +46,7 @@ describe('RemoteSources', () => {
         sources: ['Webcam'],
       })
     }).toThrow(
-      'Invalid plugin: "Webcam" is not one of: Box, Dropbox, Facebook, GoogleDrive, GooglePhotos, Instagram, OneDrive, Unsplash, Url, or Zoom.',
+      'Invalid plugin: "Webcam" is not one of: Box, Dropbox, Facebook, GoogleDrive, Instagram, OneDrive, Unsplash, Url, or Zoom.',
     )
   })
 

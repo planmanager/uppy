@@ -15,7 +15,7 @@ import {
   ProgressBarError,
   ProgressBarUploading,
   ProgressBarComplete,
-} from './Components.jsx'
+} from './Components.js'
 
 const {
   STATE_ERROR,
@@ -222,8 +222,12 @@ export default function StatusBarUI<M extends Meta, B extends Body>({
   const isHidden =
     thereIsNothingInside || (uploadState === STATE_COMPLETE && hideAfterFinish)
 
+  if (isHidden) {
+    return null
+  }
+
   return (
-    <div className={statusBarClassNames} aria-hidden={isHidden}>
+    <div className={statusBarClassNames}>
       <div
         className={progressClassNames}
         style={{ width: `${width}%` }}

@@ -24,9 +24,7 @@ import {
   filterFilesToEmitUploadStarted,
 } from '@uppy/utils/lib/fileFilters'
 import getAllowedMetaFields from '@uppy/utils/lib/getAllowedMetaFields'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore We don't want TS to generate types for the package.json
-import packageJson from '../package.json'
+import packageJson from '../package.json' with { type: 'json' }
 import locale from './locale.js'
 
 export interface XhrUploadOpts<M extends Meta, B extends Body>
@@ -235,13 +233,18 @@ export default class XHRUpload<
           })
 
           let body = await this.opts.getResponseData?.(res)
-          try {
-            body ??= JSON.parse(res.responseText) as B
-          } catch (cause) {
-            throw new Error(
-              '@uppy/xhr-upload expects a JSON response (with a `url` property). To parse non-JSON responses, use `getResponseData` to turn your response into JSON.',
-              { cause },
-            )
+
+          if (res.responseType === 'json') {
+            body ??= res.response
+          } else {
+            try {
+              body ??= JSON.parse(res.responseText) as B
+            } catch (cause) {
+              throw new Error(
+                '@uppy/xhr-upload expects a JSON response (with a `url` property). To parse non-JSON responses, use `getResponseData` to turn your response into JSON.',
+                { cause },
+              )
+            }
           }
 
           const uploadURL = typeof body?.url === 'string' ? body.url : undefined

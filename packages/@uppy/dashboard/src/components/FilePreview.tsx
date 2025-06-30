@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import getFileTypeIcon from '../utils/getFileTypeIcon.jsx'
+import getFileTypeIcon from '../utils/getFileTypeIcon.js'
 
 type $TSFixMe = any
 
@@ -9,6 +9,7 @@ export default function FilePreview(props: $TSFixMe) {
   if (file.preview) {
     return (
       <img
+        draggable={false}
         className="uppy-Dashboard-Item-previewImg"
         alt={file.name}
         src={file.preview}

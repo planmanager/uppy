@@ -2,7 +2,6 @@
   "extends": "../../../tsconfig.shared",
   "compilerOptions": {
     "outDir": "./lib",
-    "resolveJsonModule": false,
     "rootDir": "./src"
   },
   "include": ["./src/**/*.*"],
@@ -10,6 +9,9 @@
   "references": [
     {
       "path": "../core/tsconfig.build.json"
+    },
+    {
+      "path": "../components/tsconfig.build.json"
     },
     {
       "path": "../dashboard/tsconfig.build.json"

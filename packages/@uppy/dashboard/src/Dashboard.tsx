@@ -1,5 +1,6 @@
 import type { ComponentChild, VNode } from 'preact'
 import { UIPlugin } from '@uppy/core'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
 import type {
   Body,
   Meta,
@@ -18,17 +19,15 @@ import findAllDOMElements from '@uppy/utils/lib/findAllDOMElements'
 import toArray from '@uppy/utils/lib/toArray'
 import getDroppedFiles from '@uppy/utils/lib/getDroppedFiles'
 import { defaultPickerIcon } from '@uppy/provider-views'
+import type StatusBarLocale from '@uppy/status-bar/lib/locale.js'
 
 import type { TargetedEvent } from 'preact/compat'
 import { nanoid } from 'nanoid/non-secure'
-import memoizeOne from 'memoize-one'
 import * as trapFocus from './utils/trapFocus.js'
 import createSuperFocus from './utils/createSuperFocus.js'
-import DashboardUI from './components/Dashboard.jsx'
+import DashboardUI from './components/Dashboard.js'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore We don't want TS to generate types for the package.json
-import packageJson from '../package.json'
+import packageJson from '../package.json' with { type: 'json' }
 import locale from './locale.js'
 
 type GenericEventCallback = () => void
@@ -57,8 +56,6 @@ interface PromiseWithResolvers<T> {
   resolve: (value: T | PromiseLike<T>) => void
   reject: (reason?: any) => void
 }
-
-const memoize = ((memoizeOne as any).default as false) || memoizeOne
 
 const TAB_KEY = 9
 const ESC_KEY = 27
@@ -175,6 +172,7 @@ interface DashboardMiscOptions<M extends Meta, B extends Body>
   thumbnailWidth?: number
   trigger?: string | Element | null
   waitForThumbnailsBeforeUpload?: boolean
+  locale?: LocaleStrings<typeof locale> & typeof StatusBarLocale
 }
 
 export type DashboardOptions<
@@ -1129,26 +1127,26 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
     return plugin.isSupported()
   }
 
-  #getAcquirers = memoize((targets: Target[]) => {
+  #getAcquirers = (targets: Target[]) => {
     return targets
       .filter(
         (target) =>
           target.type === 'acquirer' && this.#isTargetSupported(target),
       )
       .map(this.#attachRenderFunctionToTarget)
-  })
+  }
 
-  #getProgressIndicators = memoize((targets: Target[]) => {
+  #getProgressIndicators = (targets: Target[]) => {
     return targets
       .filter((target) => target.type === 'progressindicator')
       .map(this.#attachRenderFunctionToTarget)
-  })
+  }
 
-  #getEditors = memoize((targets: Target[]) => {
+  #getEditors = (targets: Target[]) => {
     return targets
       .filter((target) => target.type === 'editor')
       .map(this.#attachRenderFunctionToTarget)
-  })
+  }
 
   render = (state: State<M, B>) => {
     const pluginState = this.getPluginState()

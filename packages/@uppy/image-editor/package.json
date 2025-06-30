@@ -1,11 +1,14 @@
 {
   "name": "@uppy/image-editor",
   "description": "Image editor and cropping UI",
-  "version": "3.3.1",
+  "version": "3.3.3",
   "license": "MIT",
   "main": "lib/index.js",
   "style": "dist/style.min.css",
   "type": "module",
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json"
+  },
   "keywords": [
     "file uploader",
     "upload",
@@ -35,5 +38,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }

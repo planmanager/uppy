@@ -1,11 +1,14 @@
 {
   "name": "@uppy/file-input",
   "description": "Simple UI of a file input button that works with Uppy right out of the box",
-  "version": "4.1.1",
+  "version": "4.1.3",
   "license": "MIT",
   "main": "lib/index.js",
   "style": "dist/style.min.css",
   "type": "module",
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json"
+  },
   "keywords": [
     "file uploader",
     "upload",
@@ -27,5 +30,8 @@
   },
   "peerDependencies": {
     "@uppy/core": "workspace:^"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }

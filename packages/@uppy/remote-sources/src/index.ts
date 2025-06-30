@@ -8,7 +8,6 @@ import type {
 } from '@uppy/core'
 import Dropbox from '@uppy/dropbox'
 import GoogleDrive from '@uppy/google-drive'
-import GooglePhotos from '@uppy/google-photos'
 import Instagram from '@uppy/instagram'
 import Facebook from '@uppy/facebook'
 import OneDrive from '@uppy/onedrive'
@@ -18,18 +17,15 @@ import Url from '@uppy/url'
 import Zoom from '@uppy/zoom'
 
 import type { CompanionPluginOptions } from '@uppy/companion-client'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore We don't want TS to generate types for the package.json
-import packageJson from '../package.json'
+import packageJson from '../package.json' with { type: 'json' }
 
-const availablePlugins = {
+export const availablePlugins = {
   // Using a null-prototype object to avoid prototype pollution.
   __proto__: null,
   Box,
   Dropbox,
   Facebook,
   GoogleDrive,
-  GooglePhotos,
   Instagram,
   OneDrive,
   Unsplash,
@@ -37,12 +33,11 @@ const availablePlugins = {
   Zoom,
 }
 
-type AvailablePluginsKeys =
+export type AvailablePluginsKeys =
   | 'Box'
   | 'Dropbox'
   | 'Facebook'
   | 'GoogleDrive'
-  | 'GooglePhotos'
   | 'Instagram'
   | 'OneDrive'
   | 'Unsplash'
@@ -50,6 +45,7 @@ type AvailablePluginsKeys =
   | 'Zoom'
 
 type NestedCompanionKeysParams = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [key in AvailablePluginsKeys]?: CompanionPluginOptions['companionKeysParams']
 }
 

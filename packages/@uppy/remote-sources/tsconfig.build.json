@@ -2,7 +2,6 @@
   "extends": "../../../tsconfig.shared",
   "compilerOptions": {
     "outDir": "./lib",
-    "resolveJsonModule": false,
     "rootDir": "./src"
   },
   "include": ["./src/**/*.*"],
@@ -22,9 +21,6 @@
     },
     {
       "path": "../google-drive/tsconfig.build.json"
-    },
-    {
-      "path": "../google-photos/tsconfig.build.json"
     },
     {
       "path": "../instagram/tsconfig.build.json"

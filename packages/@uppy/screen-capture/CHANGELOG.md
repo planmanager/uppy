@@ -1,5 +1,26 @@
 # @uppy/screen-capture
 
+## 4.3.1
+
+Released: 2025-06-30
+Included in: Uppy v4.18.0
+
+- @uppy/components,@uppy/screen-capture: useScreenCapture fixes (Prakash / #5793)
+
+## 4.3.0
+
+Released: 2025-06-02
+Included in: Uppy v4.17.0
+
+- @uppy/screen-capture: add screenshot button (Prakash / #5737)
+
+## 4.2.3
+
+Released: 2025-05-18
+Included in: Uppy v4.16.0
+
+- @uppy/audio,@uppy/box,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/google-drive-picker,@uppy/google-drive,@uppy/google-photos-picker,@uppy/image-editor,@uppy/instagram,@uppy/onedrive,@uppy/remote-sources,@uppy/screen-capture,@uppy/unsplash,@uppy/url,@uppy/utils,@uppy/webcam,@uppy/webdav,@uppy/zoom: ts: make locale strings optional (Merlijn Vos / #5728)
+
 ## 4.2.0
 
 Released: 2025-01-06

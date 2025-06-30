@@ -1,9 +1,12 @@
 {
   "name": "@uppy/utils",
   "description": "Shared utility functions for Uppy Core and plugins maintained by the Uppy team.",
-  "version": "6.1.1",
+  "version": "6.1.5",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json"
+  },
   "keywords": [
     "file uploader",
     "uppy"
@@ -77,6 +80,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.199",
-    "vitest": "^1.2.1"
+    "typescript": "^5.8.3",
+    "vitest": "^1.6.1"
   }
 }

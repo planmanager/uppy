@@ -1,11 +1,14 @@
 {
   "name": "@uppy/url",
   "description": "The Url plugin lets users import files from the Internet. Paste any URL and it’ll be added!",
-  "version": "4.2.1",
+  "version": "4.2.4",
   "license": "MIT",
   "main": "lib/index.js",
   "style": "dist/style.min.css",
   "type": "module",
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json"
+  },
   "keywords": [
     "file uploader",
     "url",
@@ -29,5 +32,8 @@
   },
   "peerDependencies": {
     "@uppy/core": "workspace:^"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }
