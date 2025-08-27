@@ -1,9 +1,5 @@
-/* eslint-disable no-shadow */
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/react-in-jsx-scope */
-import React, { useState, useRef } from 'react'
+/** biome-ignore-all lint/nursery/useUniqueElementIds: it's fine */
+import Uppy from '@uppy/core'
 import {
   Dropzone,
   FilesGrid,
@@ -11,19 +7,18 @@ import {
   UploadButton,
   UppyContextProvider,
 } from '@uppy/react'
-import Uppy from '@uppy/core'
+import UppyRemoteSources from '@uppy/remote-sources'
+import UppyScreenCapture from '@uppy/screen-capture'
 import Tus from '@uppy/tus'
 import UppyWebcam from '@uppy/webcam'
-import UppyRemoteSources from '@uppy/remote-sources'
-
-import UppyScreenCapture from '@uppy/screen-capture'
-import { RemoteSource } from './RemoteSource.js'
-import Webcam from './Webcam.tsx'
-import ScreenCapture from './ScreenCapture.tsx'
-import CustomDropzone from './CustomDropzone.tsx'
+import { useRef, useState } from 'react'
+import CustomDropzone from './CustomDropzone'
+import { RemoteSource } from './RemoteSource'
+import ScreenCapture from './ScreenCapture'
+import Webcam from './Webcam'
 
 import './app.css'
-import '@uppy/react/dist/styles.css'
+import '@uppy/react/css/style.css'
 
 function App() {
   const [uppy] = useState(() =>

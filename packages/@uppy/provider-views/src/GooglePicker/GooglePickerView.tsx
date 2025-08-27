@@ -1,22 +1,18 @@
-import { h } from 'preact'
+import type { AsyncStore, Uppy } from '@uppy/core'
+import type { I18n } from '@uppy/utils'
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
-
-import type { Uppy, AsyncStore } from '@uppy/core'
-
-import type { I18n } from '@uppy/utils/lib/Translator'
-
+import AuthView from '../ProviderView/AuthView.js'
 import {
   authorize,
   ensureScriptsInjected,
   InvalidTokenError,
   logout,
+  type PickedItem,
+  type PickingSession,
   pollPickingSession,
   showDrivePicker,
   showPhotosPicker,
-  type PickedItem,
-  type PickingSession,
 } from './googlePicker.js'
-import AuthView from '../ProviderView/AuthView.js'
 import { GoogleDriveIcon, GooglePhotosIcon } from './icons.js'
 
 function useStore(
@@ -103,7 +99,13 @@ export default function GooglePickerView({
 
       const doShowPicker = async (token: string) => {
         if (pickerType === 'drive') {
-          await showDrivePicker({ token, apiKey, appId, onFilesPicked, signal })
+          await showDrivePicker({
+            token,
+            apiKey,
+            appId,
+            onFilesPicked,
+            signal,
+          })
         } else {
           // photos
           const onPickingSessionChange = (
@@ -223,9 +225,9 @@ export default function GooglePickerView({
     return (
       <AuthView
         pluginName={
-          pickerType === 'drive' ?
-            i18n('pluginNameGoogleDrivePicker')
-          : i18n('pluginNameGooglePhotosPicker')
+          pickerType === 'drive'
+            ? i18n('pluginNameGoogleDrivePicker')
+            : i18n('pluginNameGooglePhotosPicker')
         }
         pluginIcon={pickerType === 'drive' ? GoogleDriveIcon : GooglePhotosIcon}
         handleAuth={showPicker}

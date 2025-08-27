@@ -1,5 +1,43 @@
 # @uppy/webdav
 
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [d301c01]
+- Updated dependencies [c5b51f6]
+  - @uppy/utils@7.0.0
+  - @uppy/companion-client@5.0.0
+  - @uppy/provider-views@5.0.0
+  - @uppy/core@5.0.0
+
+## 0.4.2
+
+### Patch Changes
+
+- 1b1a9e3: Define "files" in package.json
+- Updated dependencies [1b1a9e3]
+- Updated dependencies [c66fd85]
+  - @uppy/companion-client@4.5.2
+  - @uppy/provider-views@4.5.2
+  - @uppy/utils@6.2.2
+  - @uppy/core@4.5.2
+
+## 0.4.0
+
+### Minor Changes
+
+- 0c24c5a: Use TypeScript compiler instead of Babel
+
+### Patch Changes
+
+- Updated dependencies [0c24c5a]
+- Updated dependencies [0c24c5a]
+  - @uppy/core@4.5.0
+  - @uppy/companion-client@4.5.0
+  - @uppy/provider-views@4.5.0
+  - @uppy/utils@6.2.0
+
 ## 0.3.3
 
 Released: 2025-05-18

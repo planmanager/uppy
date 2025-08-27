@@ -1,5 +1,75 @@
 # @uppy/provider-views
 
+## 5.0.0
+
+### Major Changes
+
+- c5b51f6: ### Export maps for all packages
+
+  All packages now have export maps. This is a breaking change in two cases:
+
+  1. The css imports have changed from `@uppy[package]/dist/styles.min.css` to `@uppy[package]/css/styles.min.css`
+  2. You were importing something that wasn't exported from the root, for instance `@uppy/core/lib/foo.js`. You can now only import things we explicitly exported.
+
+  #### Changed imports for `@uppy/react`, `@uppy/vue`, and `@uppy/svelte`
+
+  Some components, like Dashboard, require a peer dependency to work but since all components were exported from a single file you were forced to install all peer dependencies. Even if you never imported, for instance, the status bar component.
+
+  Every component that requires a peer dependency has now been moved to a subpath, such as `@uppy/react/dashboard`, so you only need to install the peer dependencies you need.
+
+  **Example for `@uppy/react`:**
+
+  **Before:**
+
+  ```javascript
+  import { Dashboard, StatusBar } from "@uppy/react";
+  ```
+
+  **Now:**
+
+  ```javascript
+  import Dashboard from "@uppy/react/dashboard";
+  import StatusBar from "@uppy/react/status-bar";
+  ```
+
+### Patch Changes
+
+- Updated dependencies [d301c01]
+- Updated dependencies [c5b51f6]
+  - @uppy/utils@7.0.0
+  - @uppy/core@5.0.0
+
+## 4.5.3
+
+### Patch Changes
+
+- 2f62f40: VirtualList now virtualises rows in the file list, as was intented. This means better performance when scrolling thousands for files.
+- Updated dependencies [eee05db]
+  - @uppy/core@4.5.3
+
+## 4.5.2
+
+### Patch Changes
+
+- 1b1a9e3: Define "files" in package.json
+- c66fd85: Fix package.json import
+- Updated dependencies [1b1a9e3]
+  - @uppy/utils@6.2.2
+  - @uppy/core@4.5.2
+
+## 4.5.0
+
+### Minor Changes
+
+- 0c24c5a: Use TypeScript compiler instead of Babel
+
+### Patch Changes
+
+- Updated dependencies [0c24c5a]
+- Updated dependencies [0c24c5a]
+  - @uppy/core@4.5.0
+  - @uppy/utils@6.2.0
+
 ## 4.4.5
 
 Released: 2025-06-30
@@ -190,7 +260,7 @@ Included in: Uppy v3.13.0
 
 - @uppy/provider-views: Add VirtualList to ProviderView (Merlijn Vos / #4566)
 - @uppy/provider-views: fix race conditions with folder loading (Mikael Finstad / #4578)
-- @uppy/provider-views: fix infinite folder loading  (Mikael Finstad / #4590)
+- @uppy/provider-views: fix infinite folder loading (Mikael Finstad / #4590)
 
 ## 3.4.0
 
@@ -280,6 +350,7 @@ Included in: Uppy v2.5.0
 
 - @uppy/companion-client,@uppy/companion,@uppy/provider-views,@uppy/robodog: Finishing touches on Companion dynamic Oauth (Renée Kooi / #2802)
 - @uppy/provider-views: Unsplash: UI improvements (Artur Paikin / #3438)
+
 ## 3.0.0
 
 Released: 2022-08-22

@@ -1,16 +1,14 @@
-import UserFacingApiError from '@uppy/utils/lib/UserFacingApiError'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import pRetry, { AbortError } from 'p-retry'
-
-import fetchWithNetworkError from '@uppy/utils/lib/fetchWithNetworkError'
-import ErrorWithCause from '@uppy/utils/lib/ErrorWithCause'
-import getSocketHost from '@uppy/utils/lib/getSocketHost'
-
 import type Uppy from '@uppy/core'
-import type { UppyFile, Meta, Body } from '@uppy/utils/lib/UppyFile'
-import type { RequestOptions } from '@uppy/utils/lib/CompanionClientProvider'
-import AuthError from './AuthError.js'
+import type { Body, Meta, RequestOptions, UppyFile } from '@uppy/utils'
+import {
+  ErrorWithCause,
+  fetchWithNetworkError,
+  getSocketHost,
+  UserFacingApiError,
+} from '@uppy/utils'
+import pRetry, { AbortError } from 'p-retry'
 import packageJson from '../package.json' with { type: 'json' }
+import AuthError from './AuthError.js'
 
 type CompanionHeaders = Record<string, string> | undefined
 
@@ -60,7 +58,7 @@ async function handleJSONResponse<ResJson>(res: Response): Promise<ResJson> {
   }
 
   let errMsg = `Failed request with status: ${res.status}. ${res.statusText}`
-  let errData
+  let errData: any
   try {
     errData = await res.json()
 
@@ -125,18 +123,18 @@ export default class RequestClient<M extends Meta, B extends Body> {
   get hostname(): string {
     const { companion } = this.uppy.getState()
     const host = this.opts.companionUrl
-    return stripSlash(companion && companion[host] ? companion[host] : host)
+    return stripSlash(companion?.[host] ? companion[host] : host)
   }
 
   async headers(emptyBody = false): Promise<Record<string, string>> {
     const defaultHeaders = {
       Accept: 'application/json',
-      ...(emptyBody ? undefined : (
-        {
-          // Passing those headers on requests with no data forces browsers to first make a preflight request.
-          'Content-Type': 'application/json',
-        }
-      )),
+      ...(emptyBody
+        ? undefined
+        : {
+            // Passing those headers on requests with no data forces browsers to first make a preflight request.
+            'Content-Type': 'application/json',
+          }),
     }
 
     return {
@@ -441,7 +439,6 @@ export default class RequestClient<M extends Meta, B extends Body> {
             await queue
               .wrapPromiseFunction(async () => {
                 const reconnectWebsocket = async () =>
-                  // eslint-disable-next-line promise/param-names
                   new Promise((_, rejectSocket) => {
                     socket = new WebSocket(`${host}/api/${token}`)
 
@@ -496,8 +493,9 @@ export default class RequestClient<M extends Meta, B extends Body> {
                               {
                                 uploadURL: payload.url,
                                 status: payload.response?.status ?? 200,
-                                body:
-                                  text ? (JSON.parse(text) as B) : undefined,
+                                body: text
+                                  ? (JSON.parse(text) as B)
+                                  : undefined,
                               },
                             )
                             socketAbortController?.abort?.()

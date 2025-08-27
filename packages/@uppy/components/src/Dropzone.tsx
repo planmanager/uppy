@@ -1,10 +1,7 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/jsx-props-no-spreading */
-import { h } from 'preact'
-import { useMemo } from 'preact/hooks'
 import { clsx } from 'clsx'
-import type { NonNullableUppyContext, UppyContext } from './types.js'
+import { useMemo } from 'preact/hooks'
 import { createDropzone } from './hooks/dropzone.js'
+import type { NonNullableUppyContext, UppyContext } from './types.js'
 
 export type DropzoneProps = {
   width?: string
@@ -27,11 +24,21 @@ export default function Dropzone(props: DropzoneProps) {
   )
 
   return (
-    <div className="uppy-reset" data-uppy-element="dropzone">
-      <input {...getInputProps()} className="uppy:hidden" />
+    <div
+      className="uppy-reset"
+      data-uppy-element="dropzone"
+      role="presentation"
+    >
+      <input
+        {...getInputProps()}
+        tabIndex={-1}
+        name="uppy-dropzone-file-input"
+        className="uppy:hidden"
+      />
       <div
         {...getRootProps()}
-        role="button"
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: it is also a button. getRootProps returns keyboard event handlers
+        tabIndex={0}
         style={{
           width: width || '100%',
           height: height || '100%',
@@ -50,9 +57,9 @@ export default function Dropzone(props: DropzoneProps) {
             Drop files here or click to add them
           </p>
         </div>
-        {note ?
+        {note ? (
           <div className="uppy:text-sm uppy:text-gray-500">{note}</div>
-        : null}
+        ) : null}
       </div>
     </div>
   )

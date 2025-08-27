@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/destructuring-assignment */
-import { h } from 'preact'
 import { clsx } from 'clsx'
 import type { UppyContext } from './types.js'
 
@@ -55,18 +52,18 @@ export default function UploadButton(props: UploadButtonProps) {
           }}
         />
         <span className="uppy:relative uppy:z-10">
-          {ctx.status === 'uploading' || ctx.status === 'paused' ?
-            `Uploaded ${Math.round(ctx.progress)}%`
-          : ctx.status === 'error' ?
-            'Retry'
-          : ctx.status === 'complete' ?
-            'Complete'
-          : 'Upload'}
+          {ctx.status === 'uploading' || ctx.status === 'paused'
+            ? `Uploaded ${Math.round(ctx.progress)}%`
+            : ctx.status === 'error'
+              ? 'Retry'
+              : ctx.status === 'complete'
+                ? 'Complete'
+                : 'Upload'}
         </span>
       </button>
-      {ctx.status === 'uploading' || ctx.status === 'paused' ?
+      {ctx.status === 'uploading' || ctx.status === 'paused' ? (
         <div className="uppy:flex uppy:gap-2">
-          {ctx.uppy?.getState().capabilities.resumableUploads ?
+          {ctx.uppy?.getState().capabilities.resumableUploads ? (
             <button
               type="button"
               data-uppy-element="pause-button"
@@ -88,7 +85,7 @@ export default function UploadButton(props: UploadButtonProps) {
             >
               {ctx.status === 'paused' ? 'Resume' : 'Pause'}
             </button>
-          : null}
+          ) : null}
           <button
             type="button"
             data-uppy-element="cancel-button"
@@ -99,7 +96,7 @@ export default function UploadButton(props: UploadButtonProps) {
             Cancel
           </button>
         </div>
-      : null}
+      ) : null}
     </div>
   )
 }

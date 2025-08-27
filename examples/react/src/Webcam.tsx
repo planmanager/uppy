@@ -1,7 +1,5 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/react-in-jsx-scope */
-import React, { useEffect } from 'react'
 import { useWebcam } from '@uppy/react'
+import { useEffect } from 'react'
 import MediaCapture from './MediaCapture.tsx'
 
 export interface WebcamProps {
@@ -18,6 +16,7 @@ export function Webcam({ close }: WebcamProps) {
     getStopRecordingButtonProps,
     getSubmitButtonProps,
     getDiscardButtonProps,
+    state,
   } = useWebcam({ onSubmit: close })
 
   useEffect(() => {
@@ -32,6 +31,7 @@ export function Webcam({ close }: WebcamProps) {
       title="Camera"
       close={close}
       getVideoProps={getVideoProps}
+      mediaError={state.cameraError}
       getPrimaryActionButtonProps={getSnapshotButtonProps}
       primaryActionButtonLabel="Snapshot"
       getRecordButtonProps={getRecordButtonProps}

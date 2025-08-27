@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-import { h } from 'preact'
 import type { UppyContext } from './types.js'
 
 export type ProviderIconProps = {
@@ -15,7 +13,6 @@ export type ProviderIconProps = {
     | 'googlephotos'
     | 'googledrive'
   fill?: string
-  // eslint-disable-next-line react/no-unused-prop-types
   ctx?: UppyContext
 }
 

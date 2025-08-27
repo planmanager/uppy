@@ -1,4 +1,3 @@
-import { h } from 'preact'
 import classNames from 'classnames'
 import { useRef } from 'preact/hooks'
 import ignoreEvent from '../utils/ignoreEvent.js'
@@ -28,6 +27,7 @@ function PickerPanelContent({
       <div className="uppy-DashboardContent-bar">
         <div
           className="uppy-DashboardContent-title"
+          // biome-ignore lint/a11y/useSemanticElements: ...
           role="heading"
           aria-level={1}
         >

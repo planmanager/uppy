@@ -1,5 +1,72 @@
 # @uppy/core
 
+## 5.0.0
+
+### Major Changes
+
+- c5b51f6: ### Export maps for all packages
+
+  All packages now have export maps. This is a breaking change in two cases:
+
+  1. The css imports have changed from `@uppy[package]/dist/styles.min.css` to `@uppy[package]/css/styles.min.css`
+  2. You were importing something that wasn't exported from the root, for instance `@uppy/core/lib/foo.js`. You can now only import things we explicitly exported.
+
+  #### Changed imports for `@uppy/react`, `@uppy/vue`, and `@uppy/svelte`
+
+  Some components, like Dashboard, require a peer dependency to work but since all components were exported from a single file you were forced to install all peer dependencies. Even if you never imported, for instance, the status bar component.
+
+  Every component that requires a peer dependency has now been moved to a subpath, such as `@uppy/react/dashboard`, so you only need to install the peer dependencies you need.
+
+  **Example for `@uppy/react`:**
+
+  **Before:**
+
+  ```javascript
+  import { Dashboard, StatusBar } from "@uppy/react";
+  ```
+
+  **Now:**
+
+  ```javascript
+  import Dashboard from "@uppy/react/dashboard";
+  import StatusBar from "@uppy/react/status-bar";
+  ```
+
+### Patch Changes
+
+- Updated dependencies [d301c01]
+- Updated dependencies [c5b51f6]
+  - @uppy/utils@7.0.0
+  - @uppy/store-default@5.0.0
+
+## 4.5.3
+
+### Patch Changes
+
+- eee05db: Fix retry after setting missed metaFields requiring you to click "retry" and then "upload" again. Now "retry" immediately restarts the upload.
+
+## 4.5.2
+
+### Patch Changes
+
+- 1b1a9e3: Define "files" in package.json
+- Updated dependencies [1b1a9e3]
+  - @uppy/store-default@4.3.2
+  - @uppy/utils@6.2.2
+
+## 4.5.0
+
+### Minor Changes
+
+- 0c24c5a: Use TypeScript compiler instead of Babel
+
+### Patch Changes
+
+- 0c24c5a: Resolve stale state in `checkAndUpdateFileState`
+- Updated dependencies [0c24c5a]
+  - @uppy/store-default@4.3.0
+  - @uppy/utils@6.2.0
+
 ## 4.4.6
 
 Released: 2025-06-02

@@ -1,5 +1,42 @@
 # @uppy/status-bar
 
+## 5.0.0
+
+### Major Changes
+
+- 3290864: All packages now have export maps. This is a breaking change in two cases:
+
+  1. The css imports have changed from `@uppy[package]/dist/styles.min.css` to `@uppy[package]/css/styles.min.css`
+  2. You were importing something that wasn't exported from the root, for instance `@uppy/core/lib/foo.js`. You can now only import things we explicitly exported.
+
+## 4.2.3
+
+### Patch Changes
+
+- c15c6fd: Make each entry in `strings` in locale type optional
+
+## 4.2.2
+
+### Patch Changes
+
+- 1b1a9e3: Define "files" in package.json
+- Updated dependencies [1b1a9e3]
+  - @uppy/utils@6.2.2
+  - @uppy/core@4.5.2
+
+## 4.2.0
+
+### Minor Changes
+
+- 0c24c5a: Use TypeScript compiler instead of Babel
+
+### Patch Changes
+
+- Updated dependencies [0c24c5a]
+- Updated dependencies [0c24c5a]
+  - @uppy/core@4.5.0
+  - @uppy/utils@6.2.0
+
 ## 4.1.2
 
 Released: 2025-02-25

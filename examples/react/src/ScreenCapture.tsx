@@ -1,6 +1,5 @@
-/* eslint-disable react/react-in-jsx-scope */
-import React, { useEffect } from 'react'
 import { useScreenCapture } from '@uppy/react'
+import { useEffect } from 'react'
 import MediaCapture from './MediaCapture.tsx'
 
 export interface ScreenCaptureProps {
@@ -17,6 +16,7 @@ export function ScreenCapture({ close }: ScreenCaptureProps) {
     getStopRecordingButtonProps,
     getSubmitButtonProps,
     getDiscardButtonProps,
+    state,
   } = useScreenCapture({ onSubmit: close })
 
   useEffect(() => {
@@ -30,6 +30,7 @@ export function ScreenCapture({ close }: ScreenCaptureProps) {
     <MediaCapture
       title="Screen Capture"
       close={close}
+      mediaError={state.screenRecError}
       getVideoProps={getVideoProps}
       getPrimaryActionButtonProps={getScreenshotButtonProps}
       primaryActionButtonLabel="Screenshot"

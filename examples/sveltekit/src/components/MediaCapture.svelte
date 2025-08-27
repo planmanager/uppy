@@ -1,30 +1,32 @@
 <script lang="ts">
-  type ButtonProps = Record<string, unknown>
-  type VideoProps = Record<string, unknown>
+type ButtonProps = Record<string, unknown>
+type VideoProps = Record<string, unknown>
 
-  interface Props {
-    title: string
-    close: () => void
-    videoProps: VideoProps
-    primaryActionButtonProps: ButtonProps
-    primaryActionButtonLabel: string
-    recordButtonProps: ButtonProps
-    stopRecordingButtonProps: ButtonProps
-    submitButtonProps: ButtonProps
-    discardButtonProps: ButtonProps
-  }
+interface Props {
+  title: string
+  close: () => void
+  videoProps: VideoProps
+  primaryActionButtonProps: ButtonProps
+  primaryActionButtonLabel: string
+  recordButtonProps: ButtonProps
+  stopRecordingButtonProps: ButtonProps
+  submitButtonProps: ButtonProps
+  discardButtonProps: ButtonProps
+  mediaError?: Error | null
+}
 
-  const {
-    title,
-    close,
-    videoProps,
-    primaryActionButtonProps,
-    primaryActionButtonLabel,
-    recordButtonProps,
-    stopRecordingButtonProps,
-    submitButtonProps,
-    discardButtonProps,
-  }: Props = $props()
+const {
+  title,
+  close,
+  videoProps,
+  primaryActionButtonProps,
+  primaryActionButtonLabel,
+  recordButtonProps,
+  stopRecordingButtonProps,
+  submitButtonProps,
+  discardButtonProps,
+  mediaError,
+}: Props = $props()
 </script>
 
 <div class="p-4 max-w-lg w-full">
@@ -34,6 +36,12 @@
       ✕
     </button>
   </div>
+  {#if mediaError}
+    <div class="p-4 my-2 text-red-700 bg-red-100 border border-red-400 rounded">
+      <p class="font-bold">Error</p>
+      <p>{mediaError.message ? `Camera error: ${mediaError.message}` : 'An unknown camera error occurred.'}</p>
+    </div>
+  {/if}
   <video
     class="border-2 w-full rounded-lg data-[uppy-mirrored=true]:scale-x-[-1]"
     {...videoProps}

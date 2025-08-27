@@ -1,5 +1,71 @@
 # @uppy/xhr-upload
 
+## 5.0.0
+
+### Major Changes
+
+- c5b51f6: ### Export maps for all packages
+
+  All packages now have export maps. This is a breaking change in two cases:
+
+  1. The css imports have changed from `@uppy[package]/dist/styles.min.css` to `@uppy[package]/css/styles.min.css`
+  2. You were importing something that wasn't exported from the root, for instance `@uppy/core/lib/foo.js`. You can now only import things we explicitly exported.
+
+  #### Changed imports for `@uppy/react`, `@uppy/vue`, and `@uppy/svelte`
+
+  Some components, like Dashboard, require a peer dependency to work but since all components were exported from a single file you were forced to install all peer dependencies. Even if you never imported, for instance, the status bar component.
+
+  Every component that requires a peer dependency has now been moved to a subpath, such as `@uppy/react/dashboard`, so you only need to install the peer dependencies you need.
+
+  **Example for `@uppy/react`:**
+
+  **Before:**
+
+  ```javascript
+  import { Dashboard, StatusBar } from "@uppy/react";
+  ```
+
+  **Now:**
+
+  ```javascript
+  import Dashboard from "@uppy/react/dashboard";
+  import StatusBar from "@uppy/react/status-bar";
+  ```
+
+### Patch Changes
+
+- Updated dependencies [d301c01]
+- Updated dependencies [c5b51f6]
+  - @uppy/utils@7.0.0
+  - @uppy/companion-client@5.0.0
+  - @uppy/core@5.0.0
+
+## 4.4.2
+
+### Patch Changes
+
+- 1b1a9e3: Define "files" in package.json
+- Updated dependencies [1b1a9e3]
+  - @uppy/companion-client@4.5.2
+  - @uppy/utils@6.2.2
+  - @uppy/core@4.5.2
+
+## 4.4.0
+
+### Minor Changes
+
+- 49e98ab: The `endpoint` option now also accepts a callback to dynamically set it (`endpoint: (fileOrFiles) => '<url>'`).
+  If `bundle` is `true`, you get `UppyFile[]` otherwise `UppyFile`.
+- 0c24c5a: Use TypeScript compiler instead of Babel
+
+### Patch Changes
+
+- Updated dependencies [0c24c5a]
+- Updated dependencies [0c24c5a]
+  - @uppy/core@4.5.0
+  - @uppy/companion-client@4.5.0
+  - @uppy/utils@6.2.0
+
 ## 4.3.3
 
 Released: 2025-02-25
@@ -154,7 +220,7 @@ Included in: Uppy v3.23.0
 Released: 2024-02-19
 Included in: Uppy v3.22.0
 
--  @uppy/aws-s3-multipart,@uppy/aws-s3,@uppy/companion-client,@uppy/tus,@uppy/xhr-upload: update `uppyfile` objects before emitting events (antoine du hamel / #4928)
+- @uppy/aws-s3-multipart,@uppy/aws-s3,@uppy/companion-client,@uppy/tus,@uppy/xhr-upload: update `uppyfile` objects before emitting events (antoine du hamel / #4928)
 - @uppy/xhr-upload: migrate to ts (merlijn vos / #4892)
 - @uppy/xhr-upload: show remove button (merlijn vos / #4851)
 
@@ -171,7 +237,7 @@ Released: 2023-08-15
 Included in: Uppy v3.14.0
 
 - @uppy/aws-s3-multipart,@uppy/aws-s3,@uppy/companion,@uppy/transloadit,@uppy/xhr-upload: use uppercase HTTP method names (Antoine du Hamel / #4612)
-- @uppy/aws-s3,@uppy/tus,@uppy/xhr-upload:  Invoke headers function for remote uploads (Dominik Schmidt / #4596)
+- @uppy/aws-s3,@uppy/tus,@uppy/xhr-upload: Invoke headers function for remote uploads (Dominik Schmidt / #4596)
 
 ## 3.3.1
 

@@ -1,7 +1,5 @@
-/* eslint-disable react/destructuring-assignment */
-import { h, Component, Fragment, type ComponentChild } from 'preact'
-import type { I18n } from '@uppy/utils/lib/Translator'
-import type Translator from '@uppy/utils/lib/Translator'
+import type { I18n, Translator } from '@uppy/utils'
+import { Component, type ComponentChild, Fragment } from 'preact'
 import type { TargetedEvent } from 'preact/compat'
 import type { DashboardState, TargetWithRender } from '../Dashboard.js'
 
@@ -55,7 +53,6 @@ class AddFiles extends Component<AddFilesProps> {
 
     // Clear the input so that Chrome/Safari/etc. can detect file section when the same file is repeatedly selected
     // (see https://github.com/transloadit/uppy/issues/768#issuecomment-2264902758)
-    // eslint-disable-next-line no-param-reassign
     event.currentTarget.value = ''
   }
 
@@ -252,23 +249,19 @@ class AddFiles extends Component<AddFilesProps> {
 
     return (
       <div class="uppy-Dashboard-AddFiles-title">
-        {
-          // eslint-disable-next-line no-nested-ternary
-          this.props.disableLocalFiles ?
-            this.props.i18n('importFiles')
-          : numberOfAcquirers > 0 ?
-            this.props.i18nArray(`dropPasteImport${camelFMSelectionType}`, {
-              browseFiles,
-              browseFolders,
-              browse: browseFiles,
-            })
-          : this.props.i18nArray(`dropPaste${camelFMSelectionType}`, {
-              browseFiles,
-              browseFolders,
-              browse: browseFiles,
-            })
-
-        }
+        {this.props.disableLocalFiles
+          ? this.props.i18n('importFiles')
+          : numberOfAcquirers > 0
+            ? this.props.i18nArray(`dropPasteImport${camelFMSelectionType}`, {
+                browseFiles,
+                browseFolders,
+                browse: browseFiles,
+              })
+            : this.props.i18nArray(`dropPaste${camelFMSelectionType}`, {
+                browseFiles,
+                browseFolders,
+                browse: browseFiles,
+              })}
       </div>
     )
   }

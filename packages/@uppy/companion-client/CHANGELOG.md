@@ -1,5 +1,66 @@
 # @uppy/companion-client
 
+## 5.0.0
+
+### Major Changes
+
+- c5b51f6: ### Export maps for all packages
+
+  All packages now have export maps. This is a breaking change in two cases:
+
+  1. The css imports have changed from `@uppy[package]/dist/styles.min.css` to `@uppy[package]/css/styles.min.css`
+  2. You were importing something that wasn't exported from the root, for instance `@uppy/core/lib/foo.js`. You can now only import things we explicitly exported.
+
+  #### Changed imports for `@uppy/react`, `@uppy/vue`, and `@uppy/svelte`
+
+  Some components, like Dashboard, require a peer dependency to work but since all components were exported from a single file you were forced to install all peer dependencies. Even if you never imported, for instance, the status bar component.
+
+  Every component that requires a peer dependency has now been moved to a subpath, such as `@uppy/react/dashboard`, so you only need to install the peer dependencies you need.
+
+  **Example for `@uppy/react`:**
+
+  **Before:**
+
+  ```javascript
+  import { Dashboard, StatusBar } from "@uppy/react";
+  ```
+
+  **Now:**
+
+  ```javascript
+  import Dashboard from "@uppy/react/dashboard";
+  import StatusBar from "@uppy/react/status-bar";
+  ```
+
+### Patch Changes
+
+- Updated dependencies [d301c01]
+- Updated dependencies [c5b51f6]
+  - @uppy/utils@7.0.0
+  - @uppy/core@5.0.0
+
+## 4.5.2
+
+### Patch Changes
+
+- 1b1a9e3: Define "files" in package.json
+- Updated dependencies [1b1a9e3]
+  - @uppy/utils@6.2.2
+  - @uppy/core@4.5.2
+
+## 4.5.0
+
+### Minor Changes
+
+- 0c24c5a: Use TypeScript compiler instead of Babel
+
+### Patch Changes
+
+- Updated dependencies [0c24c5a]
+- Updated dependencies [0c24c5a]
+  - @uppy/core@4.5.0
+  - @uppy/utils@6.2.0
+
 ## 4.4.2
 
 Released: 2025-05-18
@@ -92,7 +153,7 @@ Included in: Uppy v3.22.2
 Released: 2024-02-19
 Included in: Uppy v3.22.0
 
--  @uppy/aws-s3-multipart,@uppy/aws-s3,@uppy/companion-client,@uppy/tus,@uppy/xhr-upload: update `uppyfile` objects before emitting events (antoine du hamel / #4928)
+- @uppy/aws-s3-multipart,@uppy/aws-s3,@uppy/companion-client,@uppy/tus,@uppy/xhr-upload: update `uppyfile` objects before emitting events (antoine du hamel / #4928)
 - @uppy/companion-client: fix tests and linter (antoine du hamel / #4890)
 - @uppy/companion-client: migrate to ts (merlijn vos / #4864)
 - @uppy/companion-client: fix `typeerror` (antoine du hamel)

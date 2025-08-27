@@ -1,5 +1,81 @@
 # @uppy/locales
 
+## 5.0.0
+
+### Major Changes
+
+- c5b51f6: ### Export maps for all packages
+
+  All packages now have export maps. This is a breaking change in two cases:
+
+  1. The css imports have changed from `@uppy[package]/dist/styles.min.css` to `@uppy[package]/css/styles.min.css`
+  2. You were importing something that wasn't exported from the root, for instance `@uppy/core/lib/foo.js`. You can now only import things we explicitly exported.
+
+  #### Changed imports for `@uppy/react`, `@uppy/vue`, and `@uppy/svelte`
+
+  Some components, like Dashboard, require a peer dependency to work but since all components were exported from a single file you were forced to install all peer dependencies. Even if you never imported, for instance, the status bar component.
+
+  Every component that requires a peer dependency has now been moved to a subpath, such as `@uppy/react/dashboard`, so you only need to install the peer dependencies you need.
+
+  **Example for `@uppy/react`:**
+
+  **Before:**
+
+  ```javascript
+  import { Dashboard, StatusBar } from "@uppy/react";
+  ```
+
+  **Now:**
+
+  ```javascript
+  import Dashboard from "@uppy/react/dashboard";
+  import StatusBar from "@uppy/react/status-bar";
+  ```
+
+### Patch Changes
+
+- Updated dependencies [d301c01]
+- Updated dependencies [c5b51f6]
+  - @uppy/utils@7.0.0
+
+## 4.8.4
+
+### Patch Changes
+
+- ea04a4d: Add "files" in package.json to only publish what's needed
+
+## 4.8.3
+
+### Patch Changes
+
+- 1a0beb9: Add all locales to globalThis.Uppy.locales.[locale-name]
+
+## 4.8.2
+
+### Patch Changes
+
+- 1b1a9e3: Define "files" in package.json
+- Updated dependencies [1b1a9e3]
+  - @uppy/utils@6.2.2
+
+## 4.8.0
+
+### Minor Changes
+
+- 28f0886: Move dev dependencies from "dependencies" to "devDependencies"
+
+## 4.7.0
+
+### Minor Changes
+
+- 0c24c5a: Update Swedish translations
+- 0c24c5a: Use TypeScript compiler instead of Babel
+
+### Patch Changes
+
+- Updated dependencies [0c24c5a]
+  - @uppy/utils@6.2.0
+
 ## 4.6.0
 
 Released: 2025-06-30
@@ -93,7 +169,7 @@ Included in: Uppy v4.0.0-beta.10
 Released: 2024-05-03
 Included in: Uppy v3.25.1
 
-- @uppy/locales: Update ru_RU locale  (Uladzislau Bodryi / #5120)
+- @uppy/locales: Update ru_RU locale (Uladzislau Bodryi / #5120)
 
 ## 3.5.2
 

@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/media-has-caption */
-import type { I18n } from '@uppy/utils/lib/Translator'
-import { h, Component, type ComponentChild, type ComponentProps } from 'preact'
-import SnapshotButton from './SnapshotButton.js'
+import type { I18n } from '@uppy/utils'
+import { Component, type ComponentChild, type ComponentProps } from 'preact'
+import DiscardButton from './DiscardButton.js'
 import RecordButton from './RecordButton.js'
 import RecordingLength from './RecordingLength.js'
+import SnapshotButton from './SnapshotButton.js'
+import SubmitButton from './SubmitButton.js'
 import VideoSourceSelect, {
   type VideoSourceSelectProps,
 } from './VideoSourceSelect.js'
-import SubmitButton from './SubmitButton.js'
-import DiscardButton from './DiscardButton.js'
 
 function isModeAvailable<T>(modes: T[], mode: any): mode is T {
   return modes.includes(mode)
@@ -21,6 +20,7 @@ interface CameraScreenProps extends VideoSourceSelectProps {
   src: MediaStream | null
   recording: boolean
   recordedVideo: string | null
+  capturedSnapshot: string | null
   modes: string[]
   supportsRecording: boolean
   showVideoSourceDropdown: boolean
@@ -31,7 +31,7 @@ interface CameraScreenProps extends VideoSourceSelectProps {
   onSnapshot: () => void
   onStartRecording: () => void
   onStopRecording: () => void
-  onDiscardRecordedVideo: () => void
+  onDiscardRecordedMedia: () => void
   recordingLengthSeconds: number
 }
 
@@ -54,6 +54,7 @@ class CameraScreen extends Component<CameraScreenProps> {
     const {
       src,
       recordedVideo,
+      capturedSnapshot,
       recording,
       modes,
       supportsRecording,
@@ -66,19 +67,21 @@ class CameraScreen extends Component<CameraScreenProps> {
       onSnapshot,
       onStartRecording,
       onStopRecording,
-      onDiscardRecordedVideo,
+      onDiscardRecordedMedia,
       recordingLengthSeconds,
     } = this.props
 
     const hasRecordedVideo = !!recordedVideo
+    const hasCapturedSnapshot = !!capturedSnapshot
+    const hasRecordedMedia = hasRecordedVideo || hasCapturedSnapshot
     const shouldShowRecordButton =
-      !hasRecordedVideo &&
+      !hasRecordedMedia &&
       supportsRecording &&
       (isModeAvailable(modes, 'video-only') ||
         isModeAvailable(modes, 'audio-only') ||
         isModeAvailable(modes, 'video-audio'))
     const shouldShowSnapshotButton =
-      !hasRecordedVideo && isModeAvailable(modes, 'picture')
+      !hasRecordedMedia && isModeAvailable(modes, 'picture')
     const shouldShowRecordingLength =
       supportsRecording && showRecordingLength && !hasRecordedVideo
     const shouldShowVideoSourceDropdown =
@@ -102,25 +105,34 @@ class CameraScreen extends Component<CameraScreenProps> {
       videoProps.autoPlay = true
       videoProps.srcObject = src
     }
-
     return (
       <div className="uppy uppy-Webcam-container">
         <div className="uppy-Webcam-videoContainer">
-          <video
-            /* eslint-disable-next-line no-return-assign */
-            ref={(videoElement) => (this.videoElement = videoElement!)}
-            className={`uppy-Webcam-video  ${
-              mirror ? 'uppy-Webcam-video--mirrored' : ''
-            }`}
-            /* eslint-disable-next-line react/jsx-props-no-spreading */
-            {...videoProps}
-          />
+          {capturedSnapshot && !recording && !recordedVideo ? (
+            <div className="uppy-Webcam-imageContainer">
+              <img
+                src={capturedSnapshot}
+                className="uppy-Webcam-video"
+                alt="capturedSnapshot"
+              />
+            </div>
+          ) : (
+            <video
+              ref={(videoElement) => {
+                this.videoElement = videoElement!
+              }}
+              className={`uppy-Webcam-video  ${
+                mirror ? 'uppy-Webcam-video--mirrored' : ''
+              }`}
+              {...videoProps}
+            />
+          )}
         </div>
         <div className="uppy-Webcam-footer">
           <div className="uppy-Webcam-videoSourceContainer">
-            {shouldShowVideoSourceDropdown ?
-              VideoSourceSelect(this.props)
-            : null}
+            {shouldShowVideoSourceDropdown
+              ? VideoSourceSelect(this.props)
+              : null}
           </div>
           <div className="uppy-Webcam-buttonContainer">
             {shouldShowSnapshotButton && (
@@ -136,12 +148,12 @@ class CameraScreen extends Component<CameraScreenProps> {
               />
             )}
 
-            {hasRecordedVideo && (
+            {(hasRecordedVideo || hasCapturedSnapshot) && (
               <SubmitButton onSubmit={onSubmit} i18n={i18n} />
             )}
 
-            {hasRecordedVideo && (
-              <DiscardButton onDiscard={onDiscardRecordedVideo} i18n={i18n} />
+            {(hasRecordedVideo || hasCapturedSnapshot) && (
+              <DiscardButton onDiscard={onDiscardRecordedMedia} i18n={i18n} />
             )}
           </div>
 
@@ -149,7 +161,6 @@ class CameraScreen extends Component<CameraScreenProps> {
             {shouldShowRecordingLength && (
               <RecordingLength
                 recordingLengthSeconds={recordingLengthSeconds}
-                i18n={i18n}
               />
             )}
           </div>

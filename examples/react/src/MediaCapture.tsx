@@ -1,11 +1,26 @@
-/* eslint-disable react/jsx-props-no-spreading, react/button-has-type */
-/* eslint-disable react/react-in-jsx-scope */
-import React from 'react'
-
 type ButtonProps = {
   type: 'button'
   onClick: () => void
   disabled: boolean
+}
+
+interface ErrorDisplayProps {
+  error: Error | null
+}
+
+function ErrorDisplay({ error }: ErrorDisplayProps) {
+  if (!error) return null
+
+  const errorMessage = error.message
+    ? `Camera error: ${error.message}`
+    : 'An unknown camera error occurred.'
+
+  return (
+    <div className="p-4 my-2 text-red-700 bg-red-100 border border-red-400 rounded">
+      <p className="font-bold">Error</p>
+      <p>{errorMessage}</p>
+    </div>
+  )
 }
 
 export interface MediaCaptureProps {
@@ -14,6 +29,7 @@ export interface MediaCaptureProps {
   getVideoProps: () => Record<string, unknown>
   getPrimaryActionButtonProps: () => ButtonProps
   primaryActionButtonLabel: string
+  mediaError: Error | null
   getRecordButtonProps: () => ButtonProps
   getStopRecordingButtonProps: () => ButtonProps
   getSubmitButtonProps: () => ButtonProps
@@ -27,6 +43,7 @@ export function MediaCapture({
   getPrimaryActionButtonProps,
   primaryActionButtonLabel,
   getRecordButtonProps,
+  mediaError,
   getStopRecordingButtonProps,
   getSubmitButtonProps,
   getDiscardButtonProps,
@@ -43,6 +60,7 @@ export function MediaCapture({
           ✕
         </button>
       </div>
+      <ErrorDisplay error={mediaError} />
       <video
         className="border-2 w-full rounded-lg data-[uppy-mirrored=true]:scale-x-[-1]"
         {...getVideoProps()}

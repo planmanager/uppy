@@ -1,8 +1,16 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  type Mock,
+  vi,
+} from 'vitest'
 
 import 'whatwg-fetch'
-import nock from 'nock'
 import Core, { type UppyFile } from '@uppy/core'
+import nock from 'nock'
 import AwsS3Multipart, {
   type AwsBody,
   type AwsS3MultipartOptions,
@@ -256,8 +264,8 @@ describe('AwsS3Multipart', () => {
       scope.persist()
 
       // Spy on the busy/done state of the test chunk (part 7, chunk index 6)
-      let busySpy
-      let doneSpy
+      let busySpy: Mock
+      let doneSpy: Mock
       awsS3Multipart.setOptions({
         shouldUseMultipart: true,
         retryDelays: [10],
@@ -349,12 +357,10 @@ describe('AwsS3Multipart', () => {
         createMultipartUpload,
         completeMultipartUpload: vi.fn(async () => ({ location: 'test' })),
         abortMultipartUpload: vi.fn(() => {
-          // eslint-disable-next-line no-throw-literal
           throw 'should ignore'
         }),
         signPart,
         uploadPartBytes: uploadPartBytes.mockImplementationOnce(() =>
-          // eslint-disable-next-line prefer-promise-reject-errors
           Promise.reject({ source: { status: 500 } }),
         ),
         listParts: undefined as any,
@@ -394,7 +400,6 @@ describe('AwsS3Multipart', () => {
               setTimeout(() => resolve({ status: 200 }), 100)
             })
           }
-          // eslint-disable-next-line prefer-promise-reject-errors
           return Promise.reject({ source: { status: 500 } })
         }),
         listParts: undefined as any,
@@ -435,6 +440,51 @@ describe('AwsS3Multipart', () => {
       expect(awsS3Multipart.opts.uploadPartBytes.mock.calls.length).toEqual(5)
       expect(uploadErrorMock.mock.calls.length).toEqual(1)
       expect(uploadSuccessMock.mock.calls.length).toEqual(1) // This fails for me becuase upload returned early.
+    })
+
+    it('retries signPart when it fails', async () => {
+      // The retry logic for signPart happens in the uploadChunk method of HTTPCommunicationQueue
+      // For a 6MB file, we expect 2 parts, so signPart should be called for each part
+      let callCount = 0
+      const signPartWithRetry = vi.fn((file, { partNumber }) => {
+        callCount++
+        if (callCount === 1) {
+          // First call fails with a retryable error
+          throw { source: { status: 500 } }
+        }
+        return {
+          url: `https://bucket.s3.us-east-2.amazonaws.com/test/upload/multitest.dat?partNumber=${partNumber}&uploadId=6aeb1980f3fc7ce0b5454d25b71992`,
+        }
+      })
+
+      const core = new Core().use(AwsS3Multipart, {
+        shouldUseMultipart: true,
+        retryDelays: [10],
+        createMultipartUpload: vi.fn(() => ({
+          uploadId: '6aeb1980f3fc7ce0b5454d25b71992',
+          key: 'test/upload/multitest.dat',
+        })),
+        completeMultipartUpload: vi.fn(async () => ({ location: 'test' })),
+        abortMultipartUpload: vi.fn(),
+        signPart: signPartWithRetry,
+        uploadPartBytes: vi.fn().mockResolvedValue({ status: 200 }),
+        listParts: undefined as any,
+      })
+      const fileSize = 5 * MB + 1 * MB
+
+      core.addFile({
+        source: 'vi',
+        name: 'multitest.dat',
+        type: 'application/octet-stream',
+        data: new File([new Uint8Array(fileSize)], '', {
+          type: 'application/octet-stream',
+        }),
+      })
+
+      await core.upload()
+
+      // Should be called 3 times: 1 failed + 1 retry + 1 for second part
+      expect(signPartWithRetry).toHaveBeenCalledTimes(3)
     })
   })
 

@@ -1,4 +1,4 @@
-import type { Locale } from '@uppy/utils/lib/Translator'
+import type { Locale } from '@uppy/utils'
 
 const cs_CZ: Locale<0 | 1 | 2> = {
   strings: {},
@@ -55,7 +55,6 @@ cs_CZ.strings = {
   browseFolders: 'procházet složky',
   cancel: 'Zrušit',
   cancelUpload: 'Zrušit nahrávání',
-  chooseFiles: 'Vyberte soubory',
   closeModal: 'Zavřít dialog',
   companionError: 'Spojení s modulem Companion se nezdařilo',
   companionUnauthorizeHint:
@@ -82,9 +81,9 @@ cs_CZ.strings = {
     '1': '%{complete} neznámý',
     '2': '%{complete} neznámých',
   },
+  discardMediaFile: 'Zahodit mediální soubor',
   discardRecordedFile: 'Zahodit nahraný soubor',
   done: 'Dokončeno',
-  dropHereOr: 'Přetáhněte soubory sem nebo %{browse}',
   dropHint: 'Přetáhněte soubory sem',
   dropPasteBoth: 'Přetáhněte soubory sem, vložte je, nebo %{browse}',
   dropPasteFiles: 'Přetáhněte soubory sem, vložte je, nebo %{browse}',
@@ -163,6 +162,13 @@ cs_CZ.strings = {
   pauseUpload: 'Pozastavit nahrávání',
   pickFiles: 'Vyberte soubory',
   pickPhotos: 'Vyberte fotografie',
+  pleaseWait: 'Prosím čekejte',
+  pluginNameAudio: 'Zvuk',
+  pluginNameCamera: 'Kamera',
+  pluginNameScreenCapture: 'Záznam obrazovky',
+  pluginNameUrl: 'Odkaz',
+  pluginWebdavInputLabel:
+    'WebDAV URL souboru (např. z ownCloudu nebo Nextcloudu)',
   poweredBy: 'Vytvořeno pomocí %{uppy}',
   processingXFiles: {
     '0': 'Zpracování %{smart_count} souboru',
@@ -184,6 +190,7 @@ cs_CZ.strings = {
   removeFile: 'Odebrat soubor',
   reSelect: 'Re-výběr',
   resetFilter: 'Reset filtru',
+  resetSearch: 'Resetovat vyhledávání',
   resume: 'Pokřačovat',
   resumeUpload: 'Pokračovat v nahrávání',
   retry: 'Opakovat',
@@ -214,6 +221,7 @@ cs_CZ.strings = {
   submitRecordedFile: 'Odeslat nahraný soubor',
   takePicture: 'Pořídit fotografii',
   takePictureBtn: 'Pořídit fotografii',
+  takeScreenshot: 'Pořídit snímek obrazovky',
   unselectFileNamed: 'Zrušit výběr souboru %{name}',
   unnamed: 'Nepojmenovaný',
   upload: 'Nahrát',
@@ -263,6 +271,12 @@ cs_CZ.strings = {
   },
   zoomIn: 'Přiblížit',
   zoomOut: 'Oddálit',
+}
+
+// @ts-ignore untyped
+if (typeof Uppy !== 'undefined') {
+  // @ts-ignore untyped
+  globalThis.Uppy.locales.cs_CZ = cs_CZ
 }
 
 export default cs_CZ

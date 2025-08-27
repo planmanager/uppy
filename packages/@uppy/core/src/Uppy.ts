@@ -1,54 +1,48 @@
-/* eslint-disable max-classes-per-file */
 /* global AggregateError */
 
-import type { h } from 'preact'
-import Translator from '@uppy/utils/lib/Translator'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+import DefaultStore, { type Store } from '@uppy/store-default'
+import type {
+  Body,
+  CompanionClientProvider,
+  CompanionClientSearchProvider,
+  CompanionFile,
+  FileProgressNotStarted,
+  FileProgressStarted,
+  I18n,
+  Locale,
+  Meta,
+  MinimalRequiredUppyFile,
+  OptionalPluralizeLocale,
+  UppyFile,
+} from '@uppy/utils'
+import {
+  getFileNameAndExtension,
+  getFileType,
+  getSafeFileId,
+  Translator,
+} from '@uppy/utils'
+import throttle from 'lodash/throttle.js'
 // @ts-ignore untyped
 import ee from 'namespace-emitter'
 import { nanoid } from 'nanoid/non-secure'
-import throttle from 'lodash/throttle.js'
-import DefaultStore, { type Store } from '@uppy/store-default'
-import getFileType from '@uppy/utils/lib/getFileType'
-import getFileNameAndExtension from '@uppy/utils/lib/getFileNameAndExtension'
-import { getSafeFileId } from '@uppy/utils/lib/generateFileID'
-import type {
-  UppyFile,
-  Meta,
-  Body,
-  MinimalRequiredUppyFile,
-} from '@uppy/utils/lib/UppyFile'
-import type { CompanionFile } from '@uppy/utils/lib/CompanionFile'
-import type {
-  CompanionClientProvider,
-  CompanionClientSearchProvider,
-} from '@uppy/utils/lib/CompanionClientProvider'
-import type {
-  FileProgressNotStarted,
-  FileProgressStarted,
-} from '@uppy/utils/lib/FileProgress'
-import type {
-  Locale,
-  I18n,
-  OptionalPluralizeLocale,
-} from '@uppy/utils/lib/Translator'
-import supportsUploadProgress from './supportsUploadProgress.js'
+import type { h } from 'preact'
+import packageJson from '../package.json' with { type: 'json' }
+import type BasePlugin from './BasePlugin.js'
 import getFileName from './getFileName.js'
-import { justErrorsLogger, debugLogger } from './loggers.js'
+import locale from './locale.js'
+import { debugLogger, justErrorsLogger } from './loggers.js'
+import type { Restrictions, ValidateableFile } from './Restricter.js'
 import {
-  Restricter,
   defaultOptions as defaultRestrictionOptions,
+  Restricter,
   RestrictionError,
 } from './Restricter.js'
-import packageJson from '../package.json' with { type: 'json' }
-import locale from './locale.js'
-
-import type BasePlugin from './BasePlugin.js'
-import type { Restrictions, ValidateableFile } from './Restricter.js'
+import supportsUploadProgress from './supportsUploadProgress.js'
 
 type Processor = (
   fileIDs: string[],
   uploadID: string,
+  // biome-ignore lint/suspicious/noConfusingVoidType: ...
 ) => Promise<unknown> | void
 
 type LogLevel = 'info' | 'warning' | 'error' | 'success'
@@ -215,7 +209,6 @@ interface CurrentUpload<M extends Meta, B extends Body> {
 }
 
 // TODO: can we use namespaces in other plugins to populate this?
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Plugins extends Record<string, Record<string, unknown> | undefined> {}
 
 export interface State<M extends Meta, B extends Body>
@@ -450,18 +443,18 @@ export class Uppy<
       ...merged,
       restrictions: {
         ...(defaultOptions.restrictions as Restrictions),
-        ...(opts && opts.restrictions),
+        ...opts?.restrictions,
       },
     }
 
     // Support debug: true for backwards-compatability, unless logger is set in opts
     // opts instead of this.opts to avoid comparing objects — we set logger: justErrorsLogger in defaultOptions
-    if (opts && opts.logger && opts.debug) {
+    if (opts?.logger && opts.debug) {
       this.log(
         'You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.',
         'warning',
       )
-    } else if (opts && opts.debug) {
+    } else if (opts?.debug) {
       this.opts.logger = debugLogger
     }
 
@@ -498,7 +491,6 @@ export class Uppy<
 
     // Exposing uppy object on window for debugging and testing
     if (this.opts.debug && typeof window !== 'undefined') {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore Mutating the global object for debug purposes
       window[this.opts.id] = this
     }
@@ -922,13 +914,18 @@ export class Uppy<
       this.#restricter.getMissingRequiredMetaFields(file)
 
     if (missingFields.length > 0) {
-      this.setFileState(file.id, { missingRequiredMetaFields: missingFields })
+      this.setFileState(file.id, {
+        missingRequiredMetaFields: missingFields,
+        error: error.message,
+      })
       this.log(error.message)
       this.emit('restriction-failed', file, error)
       return false
     }
     if (missingFields.length === 0 && file.missingRequiredMetaFields) {
-      this.setFileState(file.id, { missingRequiredMetaFields: [] })
+      this.setFileState(file.id, {
+        missingRequiredMetaFields: [],
+      })
     }
     return true
   }
@@ -975,14 +972,15 @@ export class Uppy<
     // If the actual File object is passed from input[type=file] or drag-drop,
     // we normalize it to match Uppy file object
     const file = (
-      fileDescriptorOrFile instanceof File ?
-        {
-          name: fileDescriptorOrFile.name,
-          type: fileDescriptorOrFile.type,
-          size: fileDescriptorOrFile.size,
-          data: fileDescriptorOrFile,
-        }
-      : fileDescriptorOrFile) as UppyFile<M, B>
+      fileDescriptorOrFile instanceof File
+        ? {
+            name: fileDescriptorOrFile.name,
+            type: fileDescriptorOrFile.type,
+            size: fileDescriptorOrFile.size,
+            data: fileDescriptorOrFile,
+          }
+        : fileDescriptorOrFile
+    ) as UppyFile<M, B>
 
     const fileType = getFileType(file)
     const fileName = getFileName(fileType, file)
@@ -994,8 +992,9 @@ export class Uppy<
     meta.type = fileType
 
     // `null` means the size is unknown.
-    const size =
-      Number.isFinite(file.data.size) ? file.data.size : (null as never)
+    const size = Number.isFinite(file.data.size)
+      ? file.data.size
+      : (null as never)
 
     return {
       source: file.source || '',
@@ -1042,10 +1041,10 @@ export class Uppy<
     validFilesToAdd: UppyFile<M, B>[]
     errors: RestrictionError<M, B>[]
   } {
-    const { files: existingFiles } = this.getState()
+    let { files: existingFiles } = this.getState()
 
     // create a copy of the files object only once
-    const nextFilesState = { ...existingFiles }
+    let nextFilesState = { ...existingFiles }
     const validFilesToAdd: UppyFile<M, B>[] = []
     const errors: RestrictionError<M, B>[] = []
 
@@ -1074,6 +1073,10 @@ export class Uppy<
           newFile,
           nextFilesState,
         )
+
+        // update state after onBeforeFileAdded
+        existingFiles = this.getState().files
+        nextFilesState = { ...existingFiles, ...nextFilesState }
 
         if (
           !onBeforeFileAddedResult &&
@@ -1376,8 +1379,14 @@ export class Uppy<
 
   #getFilesToRetry() {
     const { files } = this.getState()
-    return Object.keys(files).filter((file) => {
-      return files[file].error
+    return Object.keys(files).filter((fileId) => {
+      const file = files[fileId]
+      // Only retry files that have errors AND don't have missing required metadata
+      return (
+        file.error &&
+        (!file.missingRequiredMetaFields ||
+          file.missingRequiredMetaFields.length === 0)
+      )
     })
   }
 
@@ -1475,13 +1484,11 @@ export class Uppy<
       bytesTotal: progress.bytesTotal,
       // bytesTotal may be null or zero; in that case we can't divide by it
       percentage:
-        (
-          progress.bytesTotal != null &&
-          Number.isFinite(progress.bytesTotal) &&
-          progress.bytesTotal > 0
-        ) ?
-          Math.round((progress.bytesUploaded / progress.bytesTotal) * 100)
-        : undefined,
+        progress.bytesTotal != null &&
+        Number.isFinite(progress.bytesTotal) &&
+        progress.bytesTotal > 0
+          ? Math.round((progress.bytesUploaded / progress.bytesTotal) * 100)
+          : undefined,
     }
 
     if (fileInState.progress.uploadStarted != null) {
@@ -1532,7 +1539,6 @@ export class Uppy<
     { leading: true, trailing: true },
   )
 
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/explicit-module-boundary-types
   private [Symbol.for('uppy test: updateTotalProgress')]() {
     return this.#updateTotalProgress()
   }
@@ -1705,11 +1711,11 @@ export class Uppy<
         progress: {
           ...currentProgress,
           postprocess:
-            this.#postProcessors.size > 0 ?
-              {
-                mode: 'indeterminate',
-              }
-            : undefined,
+            this.#postProcessors.size > 0
+              ? {
+                  mode: 'indeterminate',
+                }
+              : undefined,
           uploadComplete: true,
           percentage: 100,
           bytesUploaded: currentProgress.bytesTotal,
@@ -2220,7 +2226,7 @@ export class Uppy<
       // postprocessing completion, we do it instead.
       currentUpload.fileIDs.forEach((fileID) => {
         const file = this.getFile(fileID)
-        if (file && file.progress.postprocess) {
+        if (file?.progress.postprocess) {
           this.emit('postprocess-complete', file)
         }
       })
@@ -2237,7 +2243,7 @@ export class Uppy<
     // This is in a separate function so that the `currentUploads` variable
     // always refers to the latest state. In the handler right above it refers
     // to an outdated object without the `.result` property.
-    let result
+    let result: UploadResult<M, B> | undefined
     if (currentUpload) {
       result = currentUpload.result
       this.#removeUpload(uploadID)
@@ -2259,7 +2265,7 @@ export class Uppy<
    * Start an upload for all the files that are not currently being uploaded.
    */
   async upload(): Promise<NonNullable<UploadResult<M, B>> | undefined> {
-    if (!this.#plugins['uploader']?.length) {
+    if (!this.#plugins.uploader?.length) {
       this.log('No uploader type plugins are used', 'warning')
     }
 
