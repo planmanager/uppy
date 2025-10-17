@@ -1,5 +1,44 @@
 # @uppy/transloadit
 
+## 5.1.2
+
+### Patch Changes
+
+- 201c422: Move `transloadit` into `dependencies` so types are resolved without users having to install it manually.
+
+## 5.1.1
+
+### Patch Changes
+
+- bc2d0ed: Ensure final assembly status fetch uses `assembly_ssl_url` so Transloadit requests stay on HTTPS.
+
+## 5.1.0
+
+### Minor Changes
+
+- 6f76412: Use the `transloadit` Node.js SDK's exported Assembly types instead of our inaccurate, hand-rolled ones.
+
+  **Warning**
+
+  The names of our type exports here are unchanged, but they do pack slightly different types. Overall you'll find they are both more complete, but also more loose. Runtime wise there should be no breaking changes, but it could mean you may need a couple of extra guards to make TypeScript happy.
+
+  A cool benefit from the new types tho, is that Robot parameters will now autocomplete for you.
+  More information on these types, and our approach rolling them out, can be found here https://transloadit.com/blog/2025/09/nodejs-sdk-v4/#our-approach-to-type-retrofitting
+
+## 5.0.1
+
+### Patch Changes
+
+- 975317d: Removed "main" from package.json, since export maps serve as the contract for the public API.
+- Updated dependencies [4b6a76c]
+- Updated dependencies [975317d]
+- Updated dependencies [9bac4c8]
+  - @uppy/core@5.0.2
+  - @uppy/companion-client@5.0.1
+  - @uppy/provider-views@5.0.2
+  - @uppy/tus@5.0.1
+  - @uppy/utils@7.0.2
+
 ## 5.0.0
 
 ### Major Changes

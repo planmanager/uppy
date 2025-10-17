@@ -1,5 +1,24 @@
 # @uppy/companion
 
+## 6.1.0
+
+### Minor Changes
+
+- 5ba2c1c: Introduce the concept of server-side search and add support for it for the Dropbox provider. Previously, only client-side filtering in the currently viewed folder was possible, which was limiting. Now users using Companion with Dropbox can perform a search across their entire account.
+
+## 6.0.2
+
+### Patch Changes
+
+- 7e5acf1: fix the server crashing due a malformed json in a websocket message
+- 975317d: Removed "main" from package.json, since export maps serve as the contract for the public API.
+
+## 6.0.1
+
+### Patch Changes
+
+- 49522ec: Remove preact/compat imports in favor of preact, preventing JSX type issues in certain setups.
+
 ## 6.0.0
 
 ### Major Changes
