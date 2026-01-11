@@ -114,7 +114,6 @@ type DashboardUIProps<M extends Meta, B extends Body> = {
   showNativeVideoCameraButton: boolean
   nativeCameraFacingMode: 'user' | 'environment' | ''
   singleFileFullScreen: boolean
-  handleCancelRestore: () => void
   handleRequestThumbnail: (file: UppyFile<M, B>) => void
   handleCancelThumbnail: (file: UppyFile<M, B>) => void
   isDraggingOver: boolean
@@ -243,7 +242,7 @@ export default function Dashboard<M extends Meta, B extends Body>(
 
           {showFileList && <PanelTopBar {...props} />}
 
-          {numberOfFilesForRecovery && (
+          {numberOfFilesForRecovery != null && numberOfFilesForRecovery > 0 && (
             <div className="uppy-Dashboard-serviceMsg">
               <svg
                 className="uppy-Dashboard-serviceMsg-icon"

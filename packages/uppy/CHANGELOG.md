@@ -1,5 +1,141 @@
 # uppy
 
+## 5.2.1
+
+### Patch Changes
+
+- Updated dependencies [648f245]
+- Updated dependencies [50e2420]
+- Updated dependencies [d766c30]
+  - @uppy/xhr-upload@5.1.1
+  - @uppy/google-drive-picker@1.1.1
+  - @uppy/provider-views@5.2.2
+  - @uppy/golden-retriever@5.2.1
+
+## 5.2.0
+
+### Minor Changes
+
+- 5684efa: Introduce @uppy/image-generator to generate images based on a prompt using Transloadit
+
+### Patch Changes
+
+- Updated dependencies [5684efa]
+- Updated dependencies [5684efa]
+- Updated dependencies [5684efa]
+  - @uppy/provider-views@5.2.1
+  - @uppy/webdav@1.1.1
+  - @uppy/transloadit@5.4.0
+  - @uppy/image-generator@1.0.0
+  - @uppy/locales@5.1.0
+
+## 5.1.12
+
+### Patch Changes
+
+- Updated dependencies [cc3ff31]
+- Updated dependencies [c3c16ae]
+- Updated dependencies [8744c4d]
+- Updated dependencies [e661348]
+- Updated dependencies [79e6460]
+- Updated dependencies [ac12f35]
+- Updated dependencies [4817585]
+  - @uppy/dashboard@5.1.0
+  - @uppy/golden-retriever@5.2.0
+  - @uppy/locales@5.0.1
+  - @uppy/provider-views@5.2.0
+  - @uppy/google-drive-picker@1.1.0
+  - @uppy/google-photos-picker@1.1.0
+  - @uppy/thumbnail-generator@5.1.0
+  - @uppy/remote-sources@3.1.0
+  - @uppy/screen-capture@5.1.0
+  - @uppy/google-drive@5.1.0
+  - @uppy/image-editor@4.1.0
+  - @uppy/drop-target@4.1.0
+  - @uppy/transloadit@5.3.0
+  - @uppy/compressor@3.1.0
+  - @uppy/status-bar@5.1.0
+  - @uppy/xhr-upload@5.1.0
+  - @uppy/drag-drop@5.1.0
+  - @uppy/instagram@5.1.0
+  - @uppy/facebook@5.1.0
+  - @uppy/onedrive@5.1.0
+  - @uppy/unsplash@5.1.0
+  - @uppy/dropbox@5.1.0
+  - @uppy/aws-s3@5.1.0
+  - @uppy/webcam@5.1.0
+  - @uppy/webdav@1.1.0
+  - @uppy/audio@3.1.0
+  - @uppy/core@5.2.0
+  - @uppy/form@5.1.0
+  - @uppy/zoom@4.1.0
+  - @uppy/box@4.1.0
+  - @uppy/tus@5.1.0
+  - @uppy/url@5.1.0
+
+## 5.1.11
+
+### Patch Changes
+
+- Updated dependencies [5e166a1]
+  - @uppy/dashboard@5.0.4
+
+## 5.1.10
+
+### Patch Changes
+
+- Updated dependencies [46e339a]
+  - @uppy/provider-views@5.1.2
+
+## 5.1.9
+
+### Patch Changes
+
+- Updated dependencies [72d2d68]
+- Updated dependencies [5edcb2e]
+  - @uppy/transloadit@5.2.0
+  - @uppy/onedrive@5.0.2
+
+## 5.1.8
+
+### Patch Changes
+
+- Updated dependencies [8ac1654]
+- Updated dependencies [8ac1654]
+- Updated dependencies [8ac1654]
+  - @uppy/status-bar@5.0.2
+  - @uppy/webcam@5.0.2
+  - @uppy/xhr-upload@5.0.2
+
+## 5.1.7
+
+### Patch Changes
+
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+- Updated dependencies [0c16fe4]
+  - @uppy/aws-s3@5.0.2
+  - @uppy/companion-client@5.1.1
+  - @uppy/compressor@3.0.2
+  - @uppy/core@5.1.1
+  - @uppy/dashboard@5.0.3
+  - @uppy/golden-retriever@5.1.1
+  - @uppy/image-editor@4.0.2
+  - @uppy/provider-views@5.1.1
+  - @uppy/thumbnail-generator@5.0.2
+  - @uppy/transloadit@5.1.3
+  - @uppy/tus@5.0.2
+  - @uppy/url@5.0.2
+
 ## 5.1.6
 
 ### Patch Changes

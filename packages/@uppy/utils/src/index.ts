@@ -37,7 +37,7 @@ export { default as fetchWithNetworkError } from './fetchWithNetworkError.js'
 
 export {
   filterFilesToEmitUploadStarted,
-  filterNonFailedFiles,
+  filterFilesToUpload,
 } from './fileFilters.js'
 
 export { default as findAllDOMElements } from './findAllDOMElements.js'
@@ -96,10 +96,14 @@ export { default as truncateString } from './truncateString.js'
 export type {
   Body,
   InternalMetadata,
+  LocalUppyFile,
+  LocalUppyFileNonGhost,
   Meta,
   MinimalRequiredUppyFile,
-  TagFile,
+  RemoteUppyFile,
   UppyFile,
+  UppyFileId,
+  UppyFileNonGhost,
 } from './UppyFile.js'
 export { default as UserFacingApiError } from './UserFacingApiError.js'
 

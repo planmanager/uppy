@@ -1,7 +1,7 @@
 {
   "name": "@uppy/facebook",
   "description": "Import files from Facebook, into Uppy.",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -37,7 +37,7 @@
     "@uppy/companion-client": "workspace:^",
     "@uppy/provider-views": "workspace:^",
     "@uppy/utils": "workspace:^",
-    "preact": "^10.5.13"
+    "preact": "^10.26.10"
   },
   "peerDependencies": {
     "@uppy/core": "workspace:^"

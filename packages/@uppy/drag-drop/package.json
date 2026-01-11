@@ -1,7 +1,7 @@
 {
   "name": "@uppy/drag-drop",
   "description": "Droppable zone UI for Uppy. Drag and drop files into it to upload.",
-  "version": "5.0.2",
+  "version": "5.1.0",
   "license": "MIT",
   "style": "dist/style.min.css",
   "type": "module",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@uppy/utils": "workspace:^",
-    "preact": "^10.5.13"
+    "preact": "^10.26.10"
   },
   "peerDependencies": {
     "@uppy/core": "workspace:^"

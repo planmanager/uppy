@@ -10,10 +10,11 @@ import type {
 import { BasePlugin, EventManager } from '@uppy/core'
 import {
   filterFilesToEmitUploadStarted,
-  filterNonFailedFiles,
+  filterFilesToUpload,
   getAllowedMetaFields,
   hasProperty,
   isNetworkError,
+  type LocalUppyFile,
   NetworkError,
   RateLimitedQueue,
 } from '@uppy/utils'
@@ -97,8 +98,17 @@ type Opts<M extends Meta, B extends Body> = DefinePluginOpts<
 >
 
 declare module '@uppy/utils' {
-  export interface UppyFile<M extends Meta, B extends Body> {
+  export interface LocalUppyFile<M extends Meta, B extends Body> {
     tus?: TusOpts<M, B>
+  }
+  export interface RemoteUppyFile<M extends Meta, B extends Body> {
+    tus?: TusOpts<M, B>
+  }
+}
+
+declare module '@uppy/core' {
+  export interface PluginTypeRegistry<M extends Meta, B extends Body> {
+    Tus: Tus<M, B>
   }
 }
 
@@ -204,7 +214,9 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
    *    up a spot in the queue.
    *
    */
-  #uploadLocalFile(file: UppyFile<M, B>): Promise<tus.Upload | string> {
+  async #uploadLocalFile(
+    file: LocalUppyFile<M, B>,
+  ): Promise<tus.Upload | string> {
     this.resetUploaderReferences(file.id)
 
     // Create a new tus upload
@@ -330,9 +342,7 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
         queuedRequest.done()
 
         if (upload.url) {
-          // @ts-expect-error not typed in tus-js-client
-          const { name } = upload.file
-          this.uppy.log(`Download ${name} from ${upload.url}`)
+          this.uppy.log(`Download ${upload.url}`)
         }
         if (typeof opts.onSuccess === 'function') {
           opts.onSuccess(payload)
@@ -439,6 +449,7 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
 
       uploadOptions.metadata = meta
 
+      if (file.data == null) throw new Error('File data is empty')
       upload = new tus.Upload(file.data, uploadOptions)
       this.uploaders[file.id] = upload
       const eventManager = new EventManager(this.uppy)
@@ -539,18 +550,18 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
     }
 
     return {
-      ...file.remote?.body,
+      ...('remote' in file && file.remote.body),
       endpoint: opts.endpoint,
       uploadUrl: opts.uploadUrl,
       protocol: 'tus',
-      size: file.data.size,
+      size: file.data!.size,
       headers: opts.headers,
       metadata: file.meta,
     }
   }
 
   async #uploadFiles(files: UppyFile<M, B>[]) {
-    const filesFiltered = filterNonFailedFiles(files)
+    const filesFiltered = filterFilesToUpload(files)
     const filesToEmit = filterFilesToEmitUploadStarted(filesFiltered)
     this.uppy.emit('upload-start', filesToEmit)
 

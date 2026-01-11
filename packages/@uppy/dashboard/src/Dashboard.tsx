@@ -39,7 +39,10 @@ declare module '@uppy/core' {
     'dashboard:file-edit-start': DashboardFileEditStartCallback<M, B>
     'dashboard:file-edit-complete': DashboardFileEditCompleteCallback<M, B>
     'dashboard:close-panel': (id: string | undefined) => void
-    'restore-canceled': GenericEventCallback
+  }
+
+  export interface PluginTypeRegistry<M extends Meta, B extends Body> {
+    Dashboard: Dashboard<M, B>
   }
 }
 
@@ -926,10 +929,6 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
     }
   }
 
-  private handleCancelRestore = () => {
-    this.uppy.emit('restore-canceled')
-  }
-
   #generateLargeThumbnailIfSingleFile = () => {
     if (this.opts.disableThumbnailGenerator) {
       return
@@ -1029,8 +1028,16 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
     this.uppy.off('files-added', this.#generateLargeThumbnailIfSingleFile)
     this.uppy.off('file-removed', this.#generateLargeThumbnailIfSingleFile)
 
-    document.removeEventListener('focus', this.recordIfFocusedOnUppyRecently)
-    document.removeEventListener('click', this.recordIfFocusedOnUppyRecently)
+    document.removeEventListener(
+      'focus',
+      this.recordIfFocusedOnUppyRecently,
+      true,
+    )
+    document.removeEventListener(
+      'click',
+      this.recordIfFocusedOnUppyRecently,
+      true,
+    )
 
     if (this.opts.inline) {
       this.el!.removeEventListener('keydown', this.handleKeyDownInInline)
@@ -1246,7 +1253,6 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       showNativeVideoCameraButton: this.opts.showNativeVideoCameraButton,
       nativeCameraFacingMode: this.opts.nativeCameraFacingMode,
       singleFileFullScreen: this.opts.singleFileFullScreen,
-      handleCancelRestore: this.handleCancelRestore,
       handleRequestThumbnail: this.handleRequestThumbnail,
       handleCancelThumbnail: this.handleCancelThumbnail,
       // drag props

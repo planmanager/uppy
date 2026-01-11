@@ -1,7 +1,7 @@
 {
   "name": "@uppy/status-bar",
   "description": "A progress bar for Uppy, with many bells and whistles.",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "license": "MIT",
   "style": "dist/style.min.css",
   "type": "module",
@@ -49,7 +49,7 @@
     "@transloadit/prettier-bytes": "^0.3.4",
     "@uppy/utils": "workspace:^",
     "classnames": "^2.2.6",
-    "preact": "^10.5.13"
+    "preact": "^10.26.10"
   },
   "peerDependencies": {
     "@uppy/core": "workspace:^"
